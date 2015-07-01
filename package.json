@@ -1,0 +1,36 @@
+{
+  "name": "buzz-im",
+  "version": "0.0.1",
+  "dependencies": {
+    "harmonize": "^1.4.2",
+    "jade": "^1.10.0",
+    "koa": "^0.21.0",
+    "koa-bodyparser": "^2.0.0",
+    "koa-router": "^5.1.2",
+    "mongoose": "^4.0.6"
+  },
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "chai": "^2.3.0",
+    "chai-as-promised": "^5.0.0",
+    "cucumber": "^0.4.9",
+    "http-server": "^0.8.0",
+    "karma": "^0.12.35",
+    "karma-chrome-launcher": "^0.1.12",
+    "karma-jasmine": "^0.3.5",
+    "protractor": "^2.1.0",
+    "request": "^2.58.0"
+  },
+  "scripts": {
+    "test": "cucumber.js --harmony --format pretty --tags @api --require features/step_definitions/"
+  },
+  "description": "Buzz Internet Marketing",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://joehua@bitbucket.org/code-savvy/buzzim.git"
+  },
+  "author": "Joe Hua"
+}
