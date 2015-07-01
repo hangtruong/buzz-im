@@ -9,7 +9,7 @@ var expect = chai.expect;
 module.exports = function () {
     this.World = require('../support/world').World;
 
-    this.Given(/^I have the credential "([^"]*)"\/"([^"]*)" which is valid$/, function (username, password, callback) {
+    this.Given(/^I have the credential (.*)\/(.*) which is valid$/, function (username, password, callback) {
         this.username = username;
         this.password = password;
         callback();
@@ -24,7 +24,7 @@ module.exports = function () {
         callback();
     });
 
-    this.Given(/^I have the credential "([^"]*)"\/"([^"]*)" which is invalid$/, function (username, password, callback) {
+    this.Given(/^I have the credential ([^"]*)\/([^"]*) which is invalid$/, function (username, password, callback) {
         this.username = username;
         this.password = password;
         callback();

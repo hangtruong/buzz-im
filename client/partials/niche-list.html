@@ -1,0 +1,11 @@
+<h2>Niche Management</h2>
+<select>
+    <option value="name">Name</option>
+    <option value="description">Description</option>
+</select>
+<ul>
+    <li ng-repeat="niche in niches | filter:query | orderBy:orderProp" class="thumbnail">
+        <a href="#/niches/{{niche.code}}">{{niche.code}}</a>
+        <p>{{niche.description}}</p>
+    </li>
+</ul>

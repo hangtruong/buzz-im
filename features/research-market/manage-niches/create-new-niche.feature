@@ -1,4 +1,3 @@
-@niche @wip
 Feature: Add a new Niche
   In order to expand the market
   As a Marketer, I want to add a new Niche

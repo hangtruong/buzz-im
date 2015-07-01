@@ -4,14 +4,24 @@ Feature: Login
   As a User, I want to login to the system
 
   @web-ui
-  Scenario: Login Successfully
-    Given I have the credential "abc"/"xyz" which is valid
+  Scenario Outline: Login Successfully
+    Given I have the credential <username>/<password> which is valid
+    Examples:
+      | username | password |
+      | abc      | xyz      |
+      | xyz      | abc      |
+      | cba      | 111      |
     When I perform login
     Then I should see the dashboard page
 
   @web-ui
-  Scenario: Login Fail
-    Given I have the credential "abc"/"xxx" which is invalid
+  Scenario Outline: Login Fail
+    Given I have the credential <username>/<password> which is invalid
     When I perform login
     Then I should be in the login page
     And I should see the notification message
+    Examples:
+      | username | password |
+      | abc      | xyz1     |
+      | xyz      | abc2     |
+      | cba      | 1113     |

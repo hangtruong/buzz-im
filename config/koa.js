@@ -10,6 +10,9 @@ var app = koa();
 app.proxy = true;
 
 
+var cors = require('koa-cors');
+app.use(cors());
+
 // body parser
 var bodyParser = require('koa-bodyparser');
 app.use(bodyParser());
@@ -33,6 +36,32 @@ publicRoute.post('/niches', function *(next) {
     try {
         yield entity.save();
         this.body = entity;
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+publicRoute.post('/niches/bulk', function *(next) {
+    var self = this;
+    console.log(this.request.body);
+    try {
+        // TODO Refactor to use collection with generator
+        for (var i = 0; i < this.request.body.length; i++) {
+            var entity = new Niche(this.request.body[i]);
+            yield entity.save();
+        }
+        this.body = "Success";
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+publicRoute.delete('/niches/clear', function *(next) {
+    try {
+        // TODO Refactor to use Generator
+        yield Niche.remove({});
+        this.body = 'Remove Successfully';
+
     } catch (e) {
         this.throw(500, e);
     }
