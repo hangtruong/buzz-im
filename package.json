@@ -22,7 +22,7 @@
     "request": "^2.58.0"
   },
   "scripts": {
-    "test": "cucumber.js --harmony --format pretty --tags @api --require features/step_definitions/"
+    "test": "cucumber.js --harmony --format pretty --tags @login --require features/step_definitions/"
   },
   "description": "Buzz Internet Marketing",
   "directories": {

@@ -7,11 +7,10 @@ exports.config = {
     specs: [
         '../features/**/*.feature'
     ],
-    baseUrl: 'http://localhost:8090/client',
     cucumberOpts: {
         require: '../features/step_definitions',
         format: 'pretty',
-        tags: "@api"
+        tags: "@login"
     },
     capabilities: {
         'browserName': 'chrome'
