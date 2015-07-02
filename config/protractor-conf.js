@@ -10,7 +10,7 @@ exports.config = {
     cucumberOpts: {
         require: '../features/step_definitions',
         format: 'pretty',
-        tags: "@niche"
+        tags: "@niche-ui"
     },
     capabilities: {
         'browserName': 'chrome'

@@ -69,7 +69,21 @@ publicRoute.delete('/niches/clear', function *(next) {
 
 publicRoute.get('/niches', function *(next) {
     try {
-        var entities = yield Niche.find({}).exec();
+        console.log(this.request.url);
+        console.log(this.params);
+        console.log(this.request.query);
+
+        var page = parseInt(this.request.query.page);
+        var itemsPerPage = parseInt(this.request.query.itemsPerPage);
+        var sortColumn = this.request.query.sortColumn;
+        var sortDimension = this.request.query.sortDimension == 'desc' ? -1 : 1;
+
+        var skip = (page - 1) * itemsPerPage;
+
+        var sort = {};
+        sort[sortColumn] = sortDimension;
+
+        var entities = yield Niche.find({}).skip(skip).limit(itemsPerPage).sort(sort).exec();
         this.body = entities;
     } catch (e) {
         this.throw(500, e);

@@ -3,7 +3,6 @@
  */
 
 function WorldFactory(callback) {
-
     var world = {
     };
 

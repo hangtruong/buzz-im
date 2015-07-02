@@ -1,14 +1,6 @@
-@niche-api
-Feature: Interact with Niche Api
-  In order to provide more helpful data to End User
-  As a Controller, I want to interact with Niche Api
-
-  Background:
-    Given I had a list of niches (api)
-
-    """
-  [
+[
   {
+    "_id": "55951688acda49c1d0724e2e",
     "modifiedTime": "2015-07-02T07:42:03.563Z",
     "code": "weight-loss",
     "name": "Weight Loss",
@@ -18,6 +10,7 @@ Feature: Interact with Niche Api
     "keywords": []
   },
   {
+    "_id": "55951688acda49c1d0724e2f",
     "modifiedTime": "2015-07-02T07:43:03.564Z",
     "code": "build-muscle",
     "name": "Build Muscle",
@@ -27,6 +20,7 @@ Feature: Interact with Niche Api
     "keywords": []
   },
   {
+    "_id": "55951688acda49c1d0724e30",
     "modifiedTime": "2015-07-02T07:44:03.564Z",
     "code": "herpes",
     "name": "Herpes",
@@ -36,6 +30,7 @@ Feature: Interact with Niche Api
     "keywords": []
   },
   {
+    "_id": "55951688acda49c1d0724e31",
     "modifiedTime": "2015-07-02T07:45:03.566Z",
     "code": "fat-loss",
     "name": "Fat Loss",
@@ -45,6 +40,7 @@ Feature: Interact with Niche Api
     "keywords": []
   },
   {
+    "_id": "55951688acda49c1d0724e32",
     "modifiedTime": "2015-07-02T07:46:03.567Z",
     "code": "hemorrhoids",
     "name": "Hemorrhoids",
@@ -54,24 +50,7 @@ Feature: Interact with Niche Api
     "keywords": []
   },
   {
-    "modifiedTime": "2015-07-02T07:47:03.568Z",
-    "code": "psoriasis",
-    "name": "Psoriasis",
-    "description": "Psoriasis Treatment",
-    "__v": 0,
-    "createdTime": "2015-07-02T07:41:22.568Z",
-    "keywords": []
-  },
-  {
-    "modifiedTime": "2015-07-02T07:48:03.569Z",
-    "code": "aquaponics",
-    "name": "Aquaponics",
-    "description": "How to build a Aquaponics system",
-    "__v": 0,
-    "createdTime": "2015-07-02T07:41:23.569Z",
-    "keywords": []
-  },
-  {
+    "_id": "55951688acda49c1d0724e35",
     "modifiedTime": "2015-07-02T07:49:03.570Z",
     "code": "dog-food",
     "name": "Dog Food",
@@ -81,6 +60,7 @@ Feature: Interact with Niche Api
     "keywords": []
   },
   {
+    "_id": "55951688acda49c1d0724e36",
     "modifiedTime": "2015-07-02T07:50:03.571Z",
     "code": "dog-training",
     "name": "Dog Training",
@@ -90,6 +70,7 @@ Feature: Interact with Niche Api
     "keywords": []
   },
   {
+    "_id": "55951688acda49c1d0724e37",
     "modifiedTime": "2015-07-02T07:51:03.572Z",
     "code": "vertical-jump",
     "name": "Vertical Jump",
@@ -99,6 +80,7 @@ Feature: Interact with Niche Api
     "keywords": []
   },
   {
+    "_id": "55951688acda49c1d0724e38",
     "modifiedTime": "2015-07-02T07:52:03.572Z",
     "code": "dating-for-man",
     "name": "Dating for Man",
@@ -108,6 +90,7 @@ Feature: Interact with Niche Api
     "keywords": []
   },
   {
+    "_id": "55951688acda49c1d0724e39",
     "modifiedTime": "2015-07-02T07:53:03.573Z",
     "code": "dating-for-woman",
     "name": "Dating for Woman",
@@ -115,39 +98,5 @@ Feature: Interact with Niche Api
     "__v": 0,
     "createdTime": "2015-07-02T07:41:10.573Z",
     "keywords": []
-  },
-  {
-    "modifiedTime": "2015-07-02T07:54:03.574Z",
-    "code": "anxiety",
-    "name": "Anxiety",
-    "description": "Anxiety Treatment",
-    "__v": 0,
-    "createdTime": "2015-07-02T07:41:11.574Z",
-    "keywords": []
-  },
-  {
-    "modifiedTime": "2015-07-02T07:55:03.574Z",
-    "code": "heart-burn",
-    "name": "Heart Burn",
-    "description": "Heart Burn Treatment",
-    "__v": 0,
-    "createdTime": "2015-07-02T07:41:12.574Z",
-    "keywords": []
   }
 ]
-    """
-
-  Scenario Outline: Get niches
-    When I request api with page = <page>, itemsPerPage = <itemsPerPage>, sortDimension = <sortDimension>, sortColumn = <sortColumn>
-    Then I should see the niches as file <result>
-    Examples:
-      | page | itemsPerPage | sortDimension | sortColumn   | result                   |
-      | 1    | 10           | asc           | createdTime  | niche-result-case-1.json |
-      | 1    | 10           | desc          | name         | niche-result-case-2.json |
-      | 1    | 10           | desc          | modifiedTime | niche-result-case-3.json |
-      | 2    | 10           | asc           | name         | niche-result-case-4.json |
-
-
-
-
-

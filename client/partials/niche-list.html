@@ -1,11 +1,19 @@
 <h2>Niche Management</h2>
+<!--Sort by column-->
 <select>
     <option value="name">Name</option>
     <option value="description">Description</option>
+    <option value="created-time">Created time</option>
 </select>
+<!--Sort by dimension-->
+<select>
+    <option value="asc">ASC</option>
+    <option value="desc">DESC</option>
+</select>
+
 <ul>
     <li ng-repeat="niche in niches | filter:query | orderBy:orderProp" class="thumbnail">
-        <a href="#/niches/{{niche.code}}">{{niche.code}}</a>
+        <a href="#/niches/{{niche.code}}">{{niche.name}}</a>
         <p>{{niche.description}}</p>
     </li>
 </ul>
