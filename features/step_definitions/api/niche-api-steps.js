@@ -60,16 +60,19 @@ module.exports = function () {
     this.When(/^I request api with page = (.*), itemsPerPage = (.*), sortDimension = (.*), sortColumn = (.*), searchText = (.*)$/
         , function (page, itemsPerPage, sortDimension, sortColumn, searchText, callback) {
             var request = require('request');
+            var paramJson ={
+                page: page,
+                itemsPerPage: itemsPerPage,
+                sortDimension: sortDimension,
+                sortColumn: sortColumn
+            };
+            if(searchText != '' || searchText != null){
+                paramJson.searchText = searchText;
+            }
             request({
                     method: 'GET',
                     url: 'http://localhost:3000/niches',
-                    qs: {
-                        page: page,
-                        itemsPerPage: itemsPerPage,
-                        sortDimension: sortDimension,
-                        sortColumn: sortColumn
-                    }
-
+                    qs: paramJson
                 }, function (err, response, body) {
                     if (err) {
                         console.log(err);
@@ -84,7 +87,6 @@ module.exports = function () {
     this.Then(/^I should see the niches as file (.*)$/, function (fileResult, callback) {
         var fs = require('fs');
         var readFile = Q.denodeify(fs.readFile);
-
         readFile(__dirname + '/../../sample-data/' + fileResult, 'utf8')
             .then(function (result) {
                 var expectData = JSON.parse(result);
@@ -103,13 +105,11 @@ module.exports = function () {
     });
 
     function compare2List(list1, list2, properties) {
-        console.log(list1[1]);
-        console.log(list2[1]);
+        //console.log(list1[1]);
+        //console.log(list2[1]);
         if (list1.length != list2.length)
             return false;
-
         for (var i = 0; i < list1.length; i++) {
-
             for (var j = 0; j < properties.length; j++) {
                 var prop = properties[j];
                 if (list1[i][prop] !== list2[i][prop]) {

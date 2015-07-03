@@ -1,0 +1,22 @@
+[
+  {
+    "_id": "55951688acda49c1d0724e38",
+    "modifiedTime": "2015-07-02T07:52:03.572Z",
+    "code": "dating-for-man",
+    "name": "Dating for Man",
+    "description": "Dating for Man Guide",
+    "__v": 0,
+    "createdTime": "2015-07-02T07:41:09.572Z",
+    "keywords": []
+  },
+  {
+    "_id": "55951688acda49c1d0724e39",
+    "modifiedTime": "2015-07-02T07:53:03.573Z",
+    "code": "dating-for-woman",
+    "name": "Dating for Woman",
+    "description": "Dating for Woman Guide",
+    "__v": 0,
+    "createdTime": "2015-07-02T07:41:10.573Z",
+    "keywords": []
+  }
+]

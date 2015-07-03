@@ -15,8 +15,8 @@ Feature: Interact with Niche Api
       | 1    | 10           | desc          | name         |            | niche-result-case-2.json |
       | 1    | 10           | desc          | modifiedTime |            | niche-result-case-3.json |
       | 2    | 10           | asc           | name         |            | niche-result-case-4.json |
-      | 1    | 10           | desc          | modifiedTime | dating     | niche-result-case-5.json |
-      | 2    | 10           | asc           | name         | loss       | niche-result-case-6.json |
+      | 1    | 10           | asc           | name         | dating     | niche-result-case-5.json |
+      | 1    | 10           | asc           | name         | vertical   | niche-result-case-6.json |
 
 
 
