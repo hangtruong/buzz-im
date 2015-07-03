@@ -99,17 +99,30 @@ module.exports = function () {
     });
 
     this.When(/^I update a niche with code is (.*), name is (.*) and description is (.*)$/, function (code, name, description, callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+        newNiche = {
+            code: code,
+            name: name,
+            description: description
+        };
+
+        element(by.css('.update888')).click();
+        element(by.model('code')).sendKeys(code);
+        element(by.model('name')).sendKeys(name);
+        element(by.model('description')).sendKeys(description);
+        element(by.css('.update-submit')).click();
+        element(by.css('.update888')).getText().then(function(data){
+            console.log(data);
+        })
+        callback();
     });
 
     this.Then(/^I should see that niche changed$/, function (callback) {
         // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+        callback();
     });
 
     this.Then(/^I should see message tell that the update niche is invalid$/, function (callback) {
         // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+        callback();
     });
 };
