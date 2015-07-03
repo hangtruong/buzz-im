@@ -1,5 +1,5 @@
 <h2>Niche Management</h2>
-<input ng-model="searchText" ng-change="load()"/>
+<input data-ng-model="searchText" ng-change="load()" ng-model-options="{ debounce: 1000 }"/>
 <!--Sort by column-->
 <select data-ng-model="sortColumn" ng-change="load()">
     <option value="name">Name</option>
@@ -12,7 +12,7 @@
     <option value="desc">DESC</option>
 </select>
 <ul>
-    <li ng-repeat="niche in niches | filter:query | orderBy:orderProp" class="thumbnail">
+    <li ng-repeat="niche in niches" class="thumbnail">
         <a href="#/niches/{{niche.code}}">{{niche.name}}</a>
 
         <p>{{niche.description}}</p>
@@ -20,3 +20,5 @@
         <p>{{niche.createdTime}}</p>
     </li>
 </ul>
+<div class="is-empty" ng-show="isEmpty">There's no niches</div>
+<div class="scroll-down" ng-click="loadMore()">{{scrollDown}}</div>

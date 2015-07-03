@@ -44,41 +44,33 @@ module.exports = function () {
         //    .to.be.eventually.equal(data[0].code).and.notify(callback);
     });
     this.When(/^I change the Sort Column by "([^"]*)"$/, function (createdTime, callback) {
-        // Write code here that turns the phrase above into concrete actions
         element(by.css('select option[value="' + createdTime + '"]')).click();
         callback();
     });
 
     this.When(/^I change the Sort Direction to DESC$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
         element(by.css('select option[value="desc"]')).click();
         callback();
     });
 
-    this.When(/^I enter the text "([^"]*)"$/, function (arg1, callback) {
-        // Write code here that turns the phrase above into concrete actions
-
-        callback.pending();
+    this.When(/^I enter the text "([^"]*)"$/, function (searchText, callback) {
+        element(by.model('searchText')).sendKeys(searchText);
+        callback();
     });
 
     this.Then(/^I should see a message tell me there's no niches$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+        expect(element(by.css('.is-empty')).getText())
+            .to.be.eventually.equal('There\'s no niches').and.notify(callback);
     });
 
     this.When(/^I scroll down to bottom$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
-    });
-
-    this.Then(/^I should see new niches is added to the list$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+        element(by.css('.scroll-down')).click();
+        callback();
     });
 
     this.Then(/^I should see a message tell me there's no more niches to load$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+        expect(element(by.css('.scroll-down')).getText())
+            .to.be.eventually.equal('There\'s no more items').and.notify(callback);
     });
 
 

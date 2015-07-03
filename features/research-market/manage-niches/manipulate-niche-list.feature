@@ -89,5 +89,6 @@ Feature: Manipulate Niche List
 
   Scenario: Shouldn't load more niches when scrolling to bottom but have no more niche
     When I scroll down to bottom
+    And I scroll down to bottom
     Then I should see a message tell me there's no more niches to load
 
