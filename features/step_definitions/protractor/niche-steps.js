@@ -113,6 +113,7 @@ module.exports = function () {
         element(by.css('.update888')).getText().then(function(data){
             console.log(data);
         })
+
         callback();
     });
 
