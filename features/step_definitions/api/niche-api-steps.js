@@ -3,8 +3,12 @@
  */
 
 var _ = require('underscore');
+
 var chai = require('chai');
+var chaiAsPromised = require('chai-as-promised');
+chai.use(chaiAsPromised);
 var expect = chai.expect;
+var Q = require('q');
 
 var mongoose = require('mongoose');
 
@@ -23,62 +27,80 @@ var NicheSchema = new Schema({
     modifiedTime: Date,
     _creatorId: {type: Schema.ObjectId, ref: 'User'}
 });
-
+var Q = require('q');
 var Niche = mongoose.model('Niche', NicheSchema);
 
 module.exports = function () {
     this.World = require('../support/world').World;
-
-    this.When('I had a list of niches (api)', function (jsonData, callback) {
+    this.Given(/^I had a list of niches like "([^"]*)"$/, function (fileName, callback) {
         if (!mongoose.connection.readyState) {
             mongoose.connect('mongodb://localhost/buzzim-development');
         }
 
-        var json = JSON.parse(jsonData);
-        Niche.remove({}).exec()
-            .then(function (x) {
-                return Niche.create(json);
+        var json;
+        var fs = require('fs');
+        var readFile = Q.denodeify(fs.readFile);
+
+        readFile(__dirname + '/../../sample-data/' + fileName, 'utf8')
+            .then(function (result) {
+                json = JSON.parse(result);
             })
-            .then(function (data) {
+            .then(function () {
+                return Niche.remove({}).exec();
+            })
+            .then(function () {
+                return Q.denodeify(Niche.collection.insert(json));
+            })
+            .then(function () {
                 mongoose.connection.close();
                 callback();
             });
     });
 
-    this.When(/^I request api with page = (.*), itemsPerPage = (.*), sortDimension = (.*), sortColumn = (.*)$/, function (page, itemsPerPage, sortDimension, sortColumn, callback) {
-        var request = require('request');
-        request({
-                method: 'GET',
-                url: 'http://localhost:3000/niches',
-                qs: {
-                    page: page,
-                    itemsPerPage: itemsPerPage,
-                    sortDimension: sortDimension,
-                    sortColumn: sortColumn
+    this.When(/^I request api with page = (.*), itemsPerPage = (.*), sortDimension = (.*), sortColumn = (.*), searchText = (.*)$/
+        , function (page, itemsPerPage, sortDimension, sortColumn, searchText, callback) {
+            var request = require('request');
+            request({
+                    method: 'GET',
+                    url: 'http://localhost:3000/niches',
+                    qs: {
+                        page: page,
+                        itemsPerPage: itemsPerPage,
+                        sortDimension: sortDimension,
+                        sortColumn: sortColumn
+                    }
+
+                }, function (err, response, body) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else
+                        returnData = JSON.parse(body);
+                    callback();
                 }
+            );
+        });
 
-            }, function (err, response, body) {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-                returnData = JSON.parse(body);
-                callback();
-            }
-        );
+    this.Then(/^I should see the niches as file (.*)$/, function (fileResult, callback) {
+        var fs = require('fs');
+        var readFile = Q.denodeify(fs.readFile);
+
+        readFile(__dirname + '/../../sample-data/' + fileResult, 'utf8')
+            .then(function (result) {
+                var expectData = JSON.parse(result);
+                var properties = ['code', 'name', 'description', 'createdTime', 'modifiedTime'];
+
+                var deferred = Q.defer();
+                var result = compare2List(expectData, returnData, properties);
+                deferred.resolve(result);
+
+                expect(deferred.promise).to.be.eventually.ok.and.notify(callback);
+            })
+            .fail(function (err) {
+                callback(err);
+            })
+            .done();
     });
-
-    this.Then(/^I should see the niches as file (.*)$/, function (result, callback) {
-        var expectData = JSON.parse(readJson(result));
-        var properties = ['code', 'name', 'description', 'createdTime', 'modifiedTime'];
-        expect(compare2List(expectData, returnData, properties)).to.be.ok;
-        callback();
-    });
-
-
-    function readJson(fileName) {
-        return require('fs').readFileSync(__dirname + '/../../sample-data/' + fileName, 'utf8');
-    };
 
     function compare2List(list1, list2, properties) {
         console.log(list1[1]);
@@ -99,4 +121,3 @@ module.exports = function () {
         return true;
     }
 }
-

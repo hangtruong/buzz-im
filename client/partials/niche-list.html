@@ -1,19 +1,22 @@
 <h2>Niche Management</h2>
+<input ng-model="searchText" ng-change="load()"/>
 <!--Sort by column-->
-<select>
+<select data-ng-model="sortColumn" ng-change="load()">
     <option value="name">Name</option>
     <option value="description">Description</option>
-    <option value="created-time">Created time</option>
+    <option value="createdTime">Created time</option>
 </select>
 <!--Sort by dimension-->
-<select>
+<select data-ng-model="sortDimension" ng-change="load()">
     <option value="asc">ASC</option>
     <option value="desc">DESC</option>
 </select>
-
 <ul>
     <li ng-repeat="niche in niches | filter:query | orderBy:orderProp" class="thumbnail">
         <a href="#/niches/{{niche.code}}">{{niche.name}}</a>
+
         <p>{{niche.description}}</p>
+
+        <p>{{niche.createdTime}}</p>
     </li>
 </ul>

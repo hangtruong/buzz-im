@@ -12,15 +12,20 @@ nicheModule.controller('NicheListCtrl', ['$scope', 'nichesService',
         $scope.sortColumn = "name";
         $scope.sortDimension = "asc";
 
-        var queryParams = {
-            page: $scope.page,
-            itemsPerPage: $scope.itemsPerPage,
-            sortColumn: $scope.sortColumn,
-            sortDimension: $scope.sortDimension
+        $scope.load = function () {
+            var queryParams = {
+                page: $scope.page,
+                itemsPerPage: $scope.itemsPerPage,
+                sortColumn: $scope.sortColumn,
+                sortDimension: $scope.sortDimension
+            };
+
+            nichesService.query(queryParams, function (data) {
+                $scope.niches = data;
+            });
         };
-        nichesService.query(queryParams, function (data) {
-            $scope.niches = data;
-        });
+
+        $scope.load();
     }]);
 
 nicheModule.controller('NicheDetail', ['$scope',
@@ -30,42 +35,4 @@ nicheModule.controller('NicheDetail', ['$scope',
 nicheModule.factory("nichesService", function ($resource) {
     var api_url = "http://localhost:3000/niches";
     return $resource(api_url);
-    //return $resource(api_url, {}, {
-    //    query: {
-    //        method: 'GET',
-    //        params: {
-    //            page: 'page',
-    //            itemPerPage: 'itemPerPage',
-    //            sortColumn: 'sortColumn',
-    //            sortDimension: 'sortDimension'
-    //        }
-    //    }
-    //    //search: {
-    //    //    method: "GET",
-    //    //    url: api_url + '/search/:by_name',
-    //    //    params: {
-    //    //        by_name: 'by_name',
-    //    //        page: 'page',
-    //    //        results: 'results',
-    //    //        sort: "sort"
-    //    //    }
-    //    //},
-    //    //add: {
-    //    //    method: 'POST'
-    //    //},
-    //    //update: {
-    //    //    method: 'PUT',
-    //    //    url: api_url + '/:id',
-    //    //    params: {
-    //    //        id: '@_id'
-    //    //    }
-    //    //},
-    //    //delete: {
-    //    //    method: 'DELETE',
-    //    //    url: api_url + '/:id',
-    //    //    params: {
-    //    //        id: 'id'
-    //    //    }
-    //    //}
-    //});
 });

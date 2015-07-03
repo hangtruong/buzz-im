@@ -5,25 +5,8 @@ Feature: Manipulate Niche List
 
   Background:
     Given I logged in
-    And I had a list of niches
-    """
-  [
-  {"code": "weight-loss", "name": "Weight Loss", "description": "All about weight loss"},
-  {"code": "build-muscle", "name": "Build Muscle", "description": "All about build mass muscle fast"},
-  {"code": "herpes", "name": "Herpes", "description": "Natural Herpes Treatment"},
-  {"code": "fat-loss", "name": "Fat Loss", "description": "How to lose fat safely & naturally"},
-  {"code": "hemorrhoids", "name": "Hemorrhoids", "description": "Hemorrhoids Treatment"},
-  {"code": "psoriasis", "name": "Psoriasis", "description": "Psoriasis Treatment"},
-  {"code": "aquaponics", "name": "Aquaponics", "description": "How to build a Aquaponics system"},
-  {"code": "dog-food", "name": "Dog Food", "description": "Dog Food Secrets"},
-  {"code": "dog-training", "name": "Dog Training", "description": "Dog Training Secrets"},
-  {"code": "vertical-jump", "name": "Vertical Jump", "description": "Vertical Jump Training"},
-  {"code": "dating-for-man", "name": "Dating for Man", "description": "Dating for Man Guide"},
-  {"code": "dating-for-woman", "name": "Dating for Woman", "description": "Dating for Woman Guide"},
-  {"code": "anxiety", "name": "Anxiety", "description": "Anxiety Treatment"},
-  {"code": "heart-burn", "name": "Heart Burn", "description": "Heart Burn Treatment"}
-  ]
-    """
+    And I had a list of niches like "niches-init.json"
+
     And I went to niche-list page
   # We assume that by default, the sort direction is Asc by Name load 10 items / time
 
@@ -44,20 +27,20 @@ Feature: Manipulate Niche List
 
   # TODO Make a decision whether test the following in Angular Controller or in Web UI
   Scenario: Refresh the list when change Sort Column
-    When I change the Sort Column by created time
+    When I change the Sort Column by "createdTime"
     # TODO How to check if a DOM elements is reloaded
     Then I should see a list of niches
-      | name          |
-      | Weight Loss   |
-      | Build Muscle  |
-      | Herpes        |
-      | Fat Loss      |
-      | Hemorrhoids   |
-      | Psoriasis     |
-      | Aquaponics    |
-      | Dog Food      |
-      | Dog Training  |
-      | Vertical Jump |
+      | name             |
+      | Weight Loss      |
+      | Build Muscle     |
+      | Herpes           |
+      | Fat Loss         |
+      | Hemorrhoids      |
+      | Dog Food         |
+      | Dog Training     |
+      | Vertical Jump    |
+      | Dating for Man   |
+      | Dating for Woman |
 
   Scenario: Refresh the list when change Sort Direction
     When I change the Sort Direction to DESC

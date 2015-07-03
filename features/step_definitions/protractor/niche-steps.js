@@ -15,33 +15,10 @@ module.exports = function () {
         callback();
     });
 
-    this.Given(/^I had a list of niches$/, function (jsonData, callback) {
-        //jsonData = JSON.parse(jsonData);
-        //jsonData = _.sortBy(jsonData, function(o) { return o.name; });
-        //jsonData = jsonData.reverse();
-        //_.map(jsonData, function (data) {
-        //    console.log("|" + data.name + "|");
-        //});
-        // TODO Insert data
-        var request = require('request');
-        request({
-                method: 'POST',
-                url: 'http://localhost:3000/niches/bulk',
-                json: JSON.parse(jsonData)
-            }, function (err, response, body) {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-                console.log('Success');
-                callback();
-            }
-        );
-    });
-
     this.Given(/^I went to niche\-list page$/, function (callback) {
         // Write code here that turns the phrase above into concrete actions
         browser.get('http://localhost:8000/client/#/niches');
+
         callback();
     });
 
@@ -66,10 +43,9 @@ module.exports = function () {
         //expect(ele.getText())
         //    .to.be.eventually.equal(data[0].code).and.notify(callback);
     });
-
-    this.When(/^I change the Sort Column by created time$/, function (callback) {
+    this.When(/^I change the Sort Column by "([^"]*)"$/, function (createdTime, callback) {
         // Write code here that turns the phrase above into concrete actions
-        element(by.css('select option[value="created-time"]')).click();
+        element(by.css('select option[value="' + createdTime + '"]')).click();
         callback();
     });
 
@@ -81,6 +57,7 @@ module.exports = function () {
 
     this.When(/^I enter the text "([^"]*)"$/, function (arg1, callback) {
         // Write code here that turns the phrase above into concrete actions
+
         callback.pending();
     });
 
@@ -103,8 +80,6 @@ module.exports = function () {
         // Write code here that turns the phrase above into concrete actions
         callback.pending();
     });
-
-
 
 
 };

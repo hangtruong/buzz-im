@@ -19,3 +19,4 @@
     * Setup & Clear MongoDb in @api before hook
     * Make better Cucumber report by inspect Chai assertion error to compose more meaningful message (see more at BDD with JS - Chapter 4)
     * Configure Jenkins to automate test
+    * Maintain MongoDb Initialization
