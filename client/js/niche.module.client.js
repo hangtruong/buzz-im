@@ -12,6 +12,7 @@ nicheModule.controller('NicheListCtrl', ['$scope', 'nichesService',
         $scope.sortColumn = "name";
         $scope.sortDimension = "asc";
         $scope.searchText = "";
+        $scope.showNewNicheBox = false;
 
         $scope.load = function () {
             $scope.page = 1;
@@ -57,6 +58,30 @@ nicheModule.controller('NicheListCtrl', ['$scope', 'nichesService',
             });
         }
 
+        $scope.addNew = function () {
+            $scope.code = "";
+            $scope.name = "";
+            $scope.description = "";
+            $scope.showNewNicheBox = true;
+
+
+        };
+
+        $scope.submit = function () {
+            var newNiche = {
+                code: $scope.code,
+                name: $scope.name,
+                description: $scope.description
+            };
+
+            nichesService.add(newNiche, function (data) {
+                $scope.niches.unshift(data);
+            }, function (err) {
+                console.log(err);
+                $scope.newNicheMessage = 'Niche is invalid';
+            });
+        };
+
         $scope.load();
     }]);
 
@@ -66,5 +91,12 @@ nicheModule.controller('NicheDetail', ['$scope',
 
 nicheModule.factory("nichesService", function ($resource) {
     var api_url = "http://localhost:3000/niches";
-    return $resource(api_url);
+    //return $resource(api_url);
+    return $resource(api_url, {}, {
+
+        add: {
+            method: 'POST'
+        }
+
+    });
 });

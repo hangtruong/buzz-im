@@ -37,7 +37,8 @@ publicRoute.post('/niches', function *(next) {
         yield entity.save();
         this.body = entity;
     } catch (e) {
-        this.throw(500, e);
+        this.status = 301;
+        this.body = 'Invalid niche';
     }
 });
 
@@ -83,7 +84,7 @@ publicRoute.get('/niches', function *(next) {
         var entities;
         if (searchText != '') {
             var entities = yield Niche
-                .find({ $text : { $search : searchText } })
+                .find({$text: {$search: searchText}})
                 .skip(skip).limit(itemsPerPage).sort(sort);
             this.body = entities;
         } else {

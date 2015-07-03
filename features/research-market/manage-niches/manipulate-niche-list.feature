@@ -1,4 +1,4 @@
-@niche-ui @wip @niche
+@niche-ui @niche
 Feature: Manipulate Niche List
   In order to organize niche more effectively
   As a Marketer, I want to manipulate a niche list
@@ -91,4 +91,3 @@ Feature: Manipulate Niche List
     When I scroll down to bottom
     And I scroll down to bottom
     Then I should see a message tell me there's no more niches to load
-

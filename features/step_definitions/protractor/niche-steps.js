@@ -73,5 +73,30 @@ module.exports = function () {
             .to.be.eventually.equal('There\'s no more items').and.notify(callback);
     });
 
+    this.When(/^I add the new niche with code is (.*), name is (.*) and description is (.*)$/, function (code, name, description, callback) {
+        newNiche = {
+            code: code,
+            name: name,
+            description: description
+        };
+
+        // TODO Make test fail when cannot find elements by css
+        element(by.css('.add-new')).click();
+        element(by.model('code')).sendKeys(code);
+        element(by.model('name')).sendKeys(name);
+        element(by.model('description')).sendKeys(description);
+        element(by.css('.add')).click();
+        callback();
+    });
+
+    this.Then(/^I should see that niche in top of list$/, function (callback) {
+        var firstItemPromise = element.all(by.repeater('niche in niches').column('niche.name')).first().getText();
+        expect(firstItemPromise).to.be.eventually.equal(newNiche.name).and.notify(callback);
+    });
+
+    this.Then(/^I should see message tell that the new niche is invalid$/, function (callback) {
+        expect(element(by.css('.new-niche-message')).getText()).to.be.eventually.equal('Niche is invalid').and.notify(callback);
+    });
+
 
 };

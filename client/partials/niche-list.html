@@ -11,6 +11,17 @@
     <option value="asc">ASC</option>
     <option value="desc">DESC</option>
 </select>
+<div>
+    <button class="add-new" ng-click="addNew()">Add</button>
+    <div class="new-niche" ng-show="showNewNicheBox">
+        <span>Code</span><input data-ng-model="code" type="text" name="code"/>
+        <span>Name</span><input data-ng-model="name" type="text" name="name"/>
+        <span>Description</span><input data-ng-model="description" type="text" name="description"/>
+        <button class="add" ng-click="submit()">Ok</button>
+        <button class="cancel" ng-click="cancel()">Cancel</button>
+        <span class="new-niche-message">{{newNicheMessage}}</span>
+    </div>
+</div>
 <ul>
     <li ng-repeat="niche in niches" class="thumbnail">
         <a href="#/niches/{{niche.code}}">{{niche.name}}</a>
