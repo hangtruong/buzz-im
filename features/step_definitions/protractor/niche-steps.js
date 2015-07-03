@@ -98,5 +98,18 @@ module.exports = function () {
         expect(element(by.css('.new-niche-message')).getText()).to.be.eventually.equal('Niche is invalid').and.notify(callback);
     });
 
+    this.When(/^I update a niche with code is (.*), name is (.*) and description is (.*)$/, function (code, name, description, callback) {
+        // Write code here that turns the phrase above into concrete actions
+        callback.pending();
+    });
 
+    this.Then(/^I should see that niche changed$/, function (callback) {
+        // Write code here that turns the phrase above into concrete actions
+        callback.pending();
+    });
+
+    this.Then(/^I should see message tell that the update niche is invalid$/, function (callback) {
+        // Write code here that turns the phrase above into concrete actions
+        callback.pending();
+    });
 };

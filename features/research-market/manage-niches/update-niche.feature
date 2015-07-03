@@ -1,24 +1,24 @@
 @niche-ui @wip
-Feature: Add a new Niche
+Feature: Update a Niche
   In order to expand the market
-  As a Marketer, I want to add a new Niche
+  As a Marketer, I want to update a Niche
 
   Background:
     Given I logged in
     And I had a list of niches like "niches-init.json"
     And I went to niche-list page
 
-  Scenario Outline:  Add a new Niche
-    When I add the new niche with code is <code>, name is <name> and description is <description>
-    Then I should see that niche in top of list
+  Scenario Outline:  Update a Niche
+    When I update a niche with code is <code>, name is <name> and description is <description>
+    Then I should see that niche changed
 
     Examples:
-      | code      | name      | description           |
-      | new-niche | New Niche | This is the new niche |
+      | code         | name         | description               |
+      | update-niche | Update Niche | This is the niche updated |
 
-  Scenario Outline: Notify when add an invalid Niche
-    When I add the new niche with code is <code>, name is <name> and description is <description>
-    Then I should see message tell that the new niche is invalid
+  Scenario Outline: Notify when update niche invalid
+    When I update a niche with code is <code>, name is <name> and description is <description>
+    Then I should see message tell that the update niche is invalid
     Examples:
       | code      | name      | description |
       |           | New Niche |             |
