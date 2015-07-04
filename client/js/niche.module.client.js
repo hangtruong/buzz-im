@@ -12,7 +12,6 @@ nicheModule.controller('NicheListCtrl', ['$scope', 'nichesService',
         $scope.sortColumn = "name";
         $scope.sortDimension = "asc";
         $scope.searchText = "";
-        $scope.showNewNicheBox = false;
 
         $scope.load = function () {
             $scope.page = 1;
@@ -32,8 +31,10 @@ nicheModule.controller('NicheListCtrl', ['$scope', 'nichesService',
                     $scope.isEmpty = true;
                     return;
                 }
-                for (var i = 0; i < data.length; i++)
-                    $scope.niches.push(data[i]);
+
+                $scope.niches = data;
+                //for (var i = 0; i < data.length; i++)
+                //    $scope.niches.push(data[i]);
             });
         };
 
@@ -59,12 +60,8 @@ nicheModule.controller('NicheListCtrl', ['$scope', 'nichesService',
         }
 
         $scope.addNew = function () {
-            $scope.code = "";
-            $scope.name = "";
-            $scope.description = "";
-            $scope.showNewNicheBox = true;
-
-
+            resetData();
+            $('#myModal').modal('show');
         };
 
         $scope.submit = function () {
@@ -76,10 +73,21 @@ nicheModule.controller('NicheListCtrl', ['$scope', 'nichesService',
 
             nichesService.add(newNiche, function (data) {
                 $scope.niches.unshift(data);
+                $('#myModal').modal('hide');
             }, function (err) {
                 console.log(err);
                 $scope.newNicheMessage = 'Niche is invalid';
             });
+        };
+
+        $scope.cancel = function () {
+            $('#myModal').modal('hide');
+        };
+
+        function resetData() {
+            $scope.code = "";
+            $scope.name = "";
+            $scope.description = "";
         };
 
         $scope.load();

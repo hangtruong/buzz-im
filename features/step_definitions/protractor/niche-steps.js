@@ -11,25 +11,23 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 
 module.exports = function () {
+
+    var NicheListPage = require('./pages/niche-list-page');
+    var nicheListPage = new NicheListPage();
+
     this.Given(/^I logged in$/, function (callback) {
         callback();
     });
 
     this.Given(/^I went to niche\-list page$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
         browser.get('http://localhost:8000/client/#/niches');
-
         callback();
     });
 
     this.Then(/^I should see a list of niches$/, function (table, callback) {
-        // Write code here that turns the phrase above into concrete actions
         var data = _.map(table.hashes(), function (item) {
             return item.name;
         });
-
-        // TODO Compare item by item
-        //var ele = element(by.repeater('niche in niches').row(0).column('niche.code'));
 
         var items = element.all(by.repeater('niche in niches').column('niche.name')).map(function (ele, index) {
             return ele.getText();
@@ -39,10 +37,8 @@ module.exports = function () {
             console.log('data: ' + data);
         })
         expect(items).to.be.eventually.deep.equal(data).and.notify(callback);
-
-        //expect(ele.getText())
-        //    .to.be.eventually.equal(data[0].code).and.notify(callback);
     });
+
     this.When(/^I change the Sort Column by "([^"]*)"$/, function (createdTime, callback) {
         element(by.css('select option[value="' + createdTime + '"]')).click();
         callback();
@@ -54,7 +50,7 @@ module.exports = function () {
     });
 
     this.When(/^I enter the text "([^"]*)"$/, function (searchText, callback) {
-        element(by.model('searchText')).sendKeys(searchText);
+        nicheListPage.typeSearchText(searchText);
         callback();
     });
 
@@ -69,7 +65,7 @@ module.exports = function () {
     });
 
     this.Then(/^I should see a message tell me there's no more niches to load$/, function (callback) {
-        expect(element(by.css('.scroll-down')).getText())
+        return expect(element(by.css('.scroll-down')).getText())
             .to.be.eventually.equal('There\'s no more items').and.notify(callback);
     });
 
@@ -79,13 +75,7 @@ module.exports = function () {
             name: name,
             description: description
         };
-
-        // TODO Make test fail when cannot find elements by css
-        element(by.css('.add-new')).click();
-        element(by.model('code')).sendKeys(code);
-        element(by.model('name')).sendKeys(name);
-        element(by.model('description')).sendKeys(description);
-        element(by.css('.add')).click();
+        nicheListPage.addNewItem(newNiche);
         callback();
     });
 
@@ -96,20 +86,5 @@ module.exports = function () {
 
     this.Then(/^I should see message tell that the new niche is invalid$/, function (callback) {
         expect(element(by.css('.new-niche-message')).getText()).to.be.eventually.equal('Niche is invalid').and.notify(callback);
-    });
-
-    this.When(/^I update a niche with code is (.*), name is (.*) and description is (.*)$/, function (code, name, description, callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
-    });
-
-    this.Then(/^I should see that niche changed$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
-    });
-
-    this.Then(/^I should see message tell that the update niche is invalid$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
     });
 };

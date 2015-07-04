@@ -10,6 +10,8 @@
     * Themes
     * Setting up AngularJs Project
     * Way to start the Application (Front-End & Back-End)
+    * Place to share knowledge & experience when coding
+    * Organize Step Definitions between WebUI, Api & Controller Tests
     
 * Research:
     * Start a RESTful Server for Testing (E2E) - Use Grunt for start server all RESTful Tests & use Mognoose to setup the Db State.
@@ -20,3 +22,7 @@
     * Make better Cucumber report by inspect Chai assertion error to compose more meaningful message (see more at BDD with JS - Chapter 4)
     * Configure Jenkins to automate test
     * Maintain MongoDb Initialization
+    * Use Page Objects to refactor the UI Test: http://martinfowler.com/bliki/PageObject.html
+    
+* Problem fixed:
+    * In this time, don't care about cannot find element using locator in E2E Test, The root cause of this problem is race condition (callback will be call before click action is completed - Protractor Cucumber bugs). The test is actually run & will failed at the assert steps.
