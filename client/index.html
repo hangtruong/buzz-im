@@ -3,18 +3,65 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Buzz Internet Marketing</title>
+    <meta name="description" content="Buzz Internet Marketing Software">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../bower_components/angular/angular.js"></script>
-    <script src="../bower_components/angular-route/angular-route.js"></script>
-    <script src="../bower_components/angular-resource/angular-resource.min.js"></script>
-    <script src="../bower_components/underscore/underscore-min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/controller.js"></script>
-    <script src="js/niche.module.client.js"></script>
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,700">
+    <link rel="stylesheet" href="app.css">
 </head>
-<body ng-controller="LoginCtrl">
-<div ng-view></div>
+<body>
+<div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <div class="navbar-header pull-left">
+                <button ng-click="toggleSidebar()" class="navbar-toggle pull-left" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" ui-sref="home">
+                    <small><i class="fa fa-leaf"></i> Buzzim WebClient</small>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main-container" class="main-container" ng-class="{sidebarShowing: isSidebarShowing}" buzzim-window-height>
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-inner">
+            <ul class="nav nav-list">
+                <li ui-sref-active="active">
+                    <a ui-sref="home"><i class="menu-icon fa fa-tachometer"></i> Dashboard</a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="niches"><i class="menu-icon fa fa-desktop"></i> Niches</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="main-content" class="main-content">
+        <div class="main-content-inner">
+            <div ncy-breadcrumb></div>
+            <div ui-view></div>
+        </div>
+        <div id="footer" class="footer">
+            Copyright &copy; 2015 <strong>Buzz Internet Marketing Software</strong>. All rights reserved.
+        </div>
+    </div>
+</div>
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="../bower_components/angular-breadcrumb/release/angular-breadcrumb.min.js"></script>
+<script src="../bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="../bower_components/underscore/underscore-min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/controller.js"></script>
+<script src="js/niche.module.client.js"></script>
 </body>
 </html>

@@ -1,71 +1,32 @@
-<h2>Niche Management</h2>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input data-ng-model="searchText" class="form-control" placeholder="Search"
-                           width="50%"
-                           ng-change="load()" ng-model-options="{ debounce: 500 }"/>
-                    <!--Sort by column-->
-                    <label for="sortColumn">Sort</label>
-                    <select id="sortColumn" data-ng-model="sortColumn" class="form-control" ng-change="load()">
-                        <option value="name">Name</option>
-                        <option value="description">Description</option>
-                        <option value="createdTime">Created time</option>
-                    </select>
-                    <!--Sort by dimension-->
-                    <select id="sortDimension" data-ng-model="sortDimension" class="form-control" ng-change="load()">
-                        <option value="asc">ASC</option>
-                        <option value="desc">DESC</option>
-                    </select>
-                    <button type="button" class="add-new form-control" data-toggle="modal" ng-click="addNew()">Add
-                    </button>
-                </div>
-            </form>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="input-group">
+            <input data-ng-model="searchText" class="form-control" placeholder="Search"
+                   ng-change="load()" ng-model-options="{ debounce: 500 }"/>
+            <!--Sort by column-->
+            <label class="input-group-addon" for="sortColumn">Sort By</label>
+            <select id="sortColumn" data-ng-model="sortColumn" class="form-control" ng-change="load()">
+                <option value="name">Name</option>
+                <option value="description">Description</option>
+                <option value="createdTime">Created time</option>
+            </select>
+            <!--Sort by dimension-->
+            <label class="input-group-addon" for="sortDimension">Order</label>
+            <select id="sortDimension" data-ng-model="sortDimension" class="form-control" ng-change="load()">
+                <option value="asc">ASC</option>
+                <option value="desc">DESC</option>
+            </select>
+            </span>
+          <span class="input-group-btn">
+            <button type="button" class="add-new form-control" data-toggle="modal" data-ng-click="addNew()">Add New
+            </button>
+          </span>
         </div>
-    </div>
-</nav>
-
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add new Niche</h4>
-            </div>
-            <div class="modal-body">
-                <div class="new-niche">
-                    <form role="form">
-                        <div class="form-group">
-                            <label for="code">Code</label>
-                            <input id="code" data-ng-model="code" class="form-control" type="text"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input id="name" data-ng-model="name" class="form-control" type="text"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <input id="description" data-ng-model="description" class="form-control" type="text"/>
-                        </div>
-                        <span class="new-niche-message">{{newNicheMessage}}</span>
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="submit" ng-click="submit()">Ok</button>
-                <button class="cancel" ng-click="cancel()">Cancel</button>
-            </div>
-        </div>
-
     </div>
 </div>
 <ul>
     <li ng-repeat="niche in niches" class="thumbnail">
-        <a href="#/niches/{{niche.code}}">{{niche.name}}</a>
+        <a href="javascript:void(0)" data-ng-click="update(niche)">{{niche.name}}</a>
 
         <p>{{niche.description}}</p>
 
@@ -73,4 +34,4 @@
     </li>
 </ul>
 <div class="is-empty" ng-show="isEmpty">There's no niches</div>
-<div class="scroll-down" ng-click="loadMore()">{{scrollDown}}</div>
+<div class="scroll-down" data-ng-click="loadMore()">{{scrollDown}}</div>

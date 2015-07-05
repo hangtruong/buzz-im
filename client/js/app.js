@@ -5,35 +5,49 @@
 
 /* App Module */
 // buzzApp = name in html tag: ng-app
-var buzzApp = angular.module('buzzApp', [
-    'ngRoute',
+angular.module('buzzApp', [
+    'ui.router',
+    'ui.bootstrap',
+    'ncy-angular-breadcrumb',
     'ngResource',
     'loginModule',
     'dashboardModule',
     'nicheModule'
-]);
+])
 
-buzzApp.config(['$routeProvider',
-    function ($routeProvider) {
-        $routeProvider.
-            when('/login', {
+    .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/dashboard');  // default page is Dashboard
+
+        $stateProvider
+            .state('login', {
+                url: '/login',
                 templateUrl: 'partials/login.html',
                 controller: 'LoginCtrl'
-            }).
-            when('/dashboard', {
+                //data: {
+                //    bodyClasses: 'page-login'
+                //}
+            })
+            .state('home', {
+                url: '/dashboard',
                 templateUrl: 'partials/dashboard.html',
-                controller: 'DashboardCtrl'
-            }).
-            when('/niches', {
+                controller: 'DashboardCtrl',
+                ncyBreadcrumb: {
+                    label: 'Dashboard'
+                }
+            })
+            .state('niches', {
+                url: '/niches',
                 templateUrl: 'partials/niche-list.html',
-                controller: 'NicheListCtrl'
-            }).
-            when('/niches/:nicheCode', {
-                templateUrl: 'partials/niche-detail.html',
-                controller: 'NicheDetailController' +
-                ''
-            }).
-            otherwise({
-                redirectTo: '/'
+                controller: 'NicheListCtrl',
+                ncyBreadcrumb: {
+                    label: 'Niches',
+                    parent: 'home'
+                }
             });
-    }]);
+    }])
+
+    .config(function ($breadcrumbProvider) {
+        $breadcrumbProvider.setOptions({
+            templateUrl: 'partials/breadcrumbs.html'
+        });
+    });

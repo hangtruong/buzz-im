@@ -1,4 +1,4 @@
-@niche-ui
+@niche-ui @wip
 Feature: Add a new Niche
   In order to expand the market
   As a Marketer, I want to add a new Niche
@@ -19,6 +19,7 @@ Feature: Add a new Niche
   Scenario Outline: Notify when add an invalid Niche
     When I add the new niche with code is <code>, name is <name> and description is <description>
     Then I should see message tell that the new niche is invalid
+#    Then I cannot submit the form (client validation work)
     Examples:
       | code      | name      | description |
       |           | New Niche |             |

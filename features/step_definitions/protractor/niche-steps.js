@@ -85,6 +85,12 @@ module.exports = function () {
     });
 
     this.Then(/^I should see message tell that the new niche is invalid$/, function (callback) {
-        expect(element(by.css('.new-niche-message')).getText()).to.be.eventually.equal('Niche is invalid').and.notify(callback);
+        // TODO Check that it has the error message instead of close modal box
+        element(by.css('.modal-dialog')).isDisplayed().then(function (isPresented) {
+            if (isPresented)
+                callback();
+            else
+                callback('Dialog should not be closed because data is invalid')
+        })
     });
 };

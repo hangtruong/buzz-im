@@ -1,4 +1,4 @@
-@niche-ui @niche
+@niche-ui @niche @wip
 Feature: Manipulate Niche List
   In order to organize niche more effectively
   As a Marketer, I want to manipulate a niche list

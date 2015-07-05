@@ -12,6 +12,7 @@
     * Way to start the Application (Front-End & Back-End)
     * Place to share knowledge & experience when coding
     * Organize Step Definitions between WebUI, Api & Controller Tests
+    * Consider to using Jade & Stylus to render Html & Css (improve code management) & use Grunt to convert file before running application
     
 * Research:
     * Start a RESTful Server for Testing (E2E) - Use Grunt for start server all RESTful Tests & use Mognoose to setup the Db State.

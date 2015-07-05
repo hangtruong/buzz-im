@@ -1,0 +1,53 @@
+<div class="modal-header">
+    <button type="button" class="close" data-ng-click="cancel()">&times;</button>
+    <h3 class="modal-title">{{title}}</h3>
+</div>
+<form name="editForm" novalidate>
+    <div class="modal-body form-horizontal">
+        <div class="form-group"
+             data-ng-class="{'has-error': (editForm.$submitted ||editForm.code.$touched) && editForm.code.$invalid}">
+            <label class="col-sm-2 control-label" for="code">Code</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="code" data-ng-model="nicheObj.code" name="code"
+                       required/>
+
+                <div data-ng-show="editForm.$submitted || editForm.code.$touched">
+                    <p class="help-block" data-ng-show="editForm.code.$error.required">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span> This field is required.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"
+             data-ng-class="{'has-error': (editForm.$submitted || editForm.name.$touched) && editForm.name.$invalid}">
+            <label class="col-sm-2 control-label" for="name">Name</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="name" data-ng-model="nicheObj.name" name="name"
+                       required/>
+
+                <div data-ng-show="editForm.$submitted || editForm.name.$touched">
+                    <p class="help-block" data-ng-show="editForm.name.$error.required">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span> This field is required.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="description">Description</label>
+
+            <div class="col-sm-10">
+                <textarea data-ng-model="nicheObj.description" name="description" class="form-control" rows="3"
+                          id="description"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary submit" data-ng-click="submit()"><i class="ace-icon fa fa-check"></i>
+            Submit
+        </button>
+        <button class="btn btn-default cancel" data-ng-click="cancel()"><i class="ace-icon fa fa-times"></i> Cancel
+        </button>
+    </div>
+</form>
