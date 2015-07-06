@@ -35,7 +35,6 @@ publicRoute.get('/', function *(next) {
 
 publicRoute.post('/niches', function *(next) {
     var entity = new Niche(this.request.body);
-
     try {
         yield entity.save();
         this.body = entity;
@@ -91,6 +90,28 @@ publicRoute.get('/niches', function *(next) {
             this.body = entities;
         }
     } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+// GET /niches/:nicheSlug
+publicRoute.get('/niches/:nicheSlug', function *(next){
+    //TODO research error handler middleware in koa
+    try{
+        var nicheSlug = this.params.nicheSlug;
+        var niche = yield Niche.findOne({code:nicheSlug}).exec();
+        this.body = niche;
+    }catch(e){
+        this.throw(500, e);
+    }
+});
+
+// DELETE /niches/:nicheSlug
+publicRoute.delete('/niches/:nicheSlug', function *(next){
+    try{
+        var nicheSlug = this.params.nicheSlug;
+        this.body = nicheSlug;
+    }catch(e){
         this.throw(500, e);
     }
 });

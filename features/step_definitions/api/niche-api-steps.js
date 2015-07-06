@@ -13,6 +13,7 @@ var helper = require('../support/helper');
 
 module.exports = function () {
     this.World = require('../support/world').World;
+
     this.Given(/^I had a list of niches like "([^"]*)"$/, function (fileName, callback) {
         helper.readSampleFile(fileName)
             .then(function (result) {
@@ -27,7 +28,6 @@ module.exports = function () {
             })
             .done();
     });
-
 
     this.When(/^I request api with page = (.*), itemsPerPage = (.*), sortDimension = (.*), sortColumn = (.*), searchText = (.*)$/
         , function (page, itemsPerPage, sortDimension, sortColumn, searchText, callback) {
@@ -56,12 +56,12 @@ module.exports = function () {
         });
 
     this.Then(/^I should see the niches as file (.*)$/, function (fileResult, callback) {
+        // TODO test case default request
         helper.readSampleFile(fileResult)
             .then(function (result) {
                 var expectData = JSON.parse(result);
                 var properties = ['code', 'name', 'description', 'createdTime', 'modifiedTime'];
                 var result = helper.compare2List(expectData, returnData, properties);
-
                 expect(helper.resolvePromise(result)).to.be.eventually.ok.and.notify(callback);
             })
             .fail(function (err) {
@@ -72,32 +72,110 @@ module.exports = function () {
 
     this.When(/^I request api GET \/niches\/niche_slug with niche_slug = (.*)$/, function (nicheSlug, callback) {
         var url = uriEndpoint + '/niches/' + nicheSlug;
-        console.log(url);
         request({
                 method: 'GET',
                 url: url ,
             }, function (err, response, body) {
                 if (err) {
+                    console.log(err);
+                    callback();
                 }
                 else{
+                    resStatusCode = response.statusCode;
                     callback();
                 }
             }
         );
     });
 
-    this.Then(/^I should be see single niche response with status_code = (.*)$/, function (statusCode, callback) {
+    this.Then(/^I should see api to get single niche by slug exist$/, function (callback) {
+        expect(resStatusCode).not.to.equal(parseInt(404));
+        callback();
+    });
+
+    this.Then(/^I should see single niche response with status_code = (.*)$/, function (statusCode, callback) {
+        expect(resStatusCode).to.equal(parseInt(statusCode));
         callback();
     });
 
     this.When(/^I request api DELETE \/niches\/niche_slug with niche_slug = (.*)$/, function (nicheSlug, callback) {
+        var url = uriEndpoint + '/niches/' + nicheSlug;
+
+        request({
+                method: 'DELETE',
+                url: url ,
+            }, function (err, response, body) {
+                if (err) {
+                    console.log(err);
+                    callback();
+                }
+                else{
+                    resStatusCode = response.statusCode;
+                    callback();
+                }
+            }
+        );
+    });
+
+    this.Then(/^I should see api to delete a niche exist$/, function (callback) {
+        expect(resStatusCode).not.to.equal(parseInt(404));
+        callback();
+    });
+
+    this.Then(/^I should see result like status_code = (.*)$/, function (statusCode, callback) {
+        expect(resStatusCode).to.equal(parseInt(statusCode));
+        callback();
+    });
+
+    this.Then(/^I should not get niche with niche_slug = (.*)$/, function (nicheSlug, callback) {
+        callback.pending();
+        //var url = uriEndpoint + '/niches/' + nicheSlug;
+        //request({
+        //        method: 'GET',
+        //        url: url ,
+        //    }, function (err, response, body) {
+        //        if (err) {
+        //            console.log(err);
+        //            callback();
+        //        }
+        //        else{
+        //            expect(response.statusCode).to.equal(parseInt(204));
+        //            callback();
+        //        }
+        //    }
+        //);
+    });
+
+    this.When(/^I request api POST \/niches with data json file like (.*)$/, function (dataJson, callback) {
         // Write code here that turns the phrase above into concrete actions
         callback.pending();
     });
 
-    this.Then(/^I should be see result like status_code = (.*)$/, function (statusCode, callback) {
+    this.Then(/^I should see status code created success is (.*)$/, function (statusCode, callback) {
         // Write code here that turns the phrase above into concrete actions
         callback.pending();
     });
+
+    this.Then(/^I should see new niche created success like (.*)$/, function (dataJson, callback) {
+        // Write code here that turns the phrase above into concrete actions
+        callback.pending();
+    });
+
+    this.When(/^I request api PUT \/niches with data json file like (.*)$/, function (dataJson, callback) {
+        // Write code here that turns the phrase above into concrete actions
+        callback.pending();
+    });
+
+    this.Then(/^I should see status code updated success is (.*)$/, function (statusCode, callback) {
+        // Write code here that turns the phrase above into concrete actions
+        callback.pending();
+    });
+
+    this.Given(/^I should see niche updated success like (.*)$/, function (dataJson, callback) {
+        // Write code here that turns the phrase above into concrete actions
+        callback.pending();
+    });
+
+
 
 }

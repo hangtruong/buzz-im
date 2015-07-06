@@ -20,27 +20,37 @@ Feature: Interact with Niche Api
 
   Scenario Outline: Get single niche by slug - GET /niches/niche_slug
     When I request api GET /niches/niche_slug with niche_slug = <niche_slug>
-    Then I should be see single niche response with status_code = <status_code>
+    Then I should see api to get single niche by slug exist
+    And I should see single niche response with status_code = <status_code>
     Examples:
-      |niche_slug| status_code |
-      |abcxyz    |  200        |
-
-#  Scenario Outline: Create new niche - POST /niches
-#    When I request api POST /niches with data json
-#    Then I should be see new niche created
-#    And I should be see status code is 200 or 201
-#
-#  Scenario Outline: Update a niche - PUT /niches/niche_slug
-#    When I request api PUT /niches/niche_slug with data json
-#    Then I should be see niche updated
-#    And I should be see status code is 200
+      | niche_slug  | status_code |
+      | abcxyz      | 204         |
+      | weight-loss | 200         |
 
   Scenario Outline: Delete a niche - DELETE /niches/niche_slug
     When I request api DELETE /niches/niche_slug with niche_slug = <niche_slug>
-    Then I should be see result like status_code = <status_code>
+    Then I should see api to delete a niche exist
+    And I should see result like status_code = <status_code>
+    And I should not get niche with niche_slug = <niche_slug>
     Examples:
-      |niche_slug| status_code |
-      |abcxyz    |  200        |
+      | niche_slug  | status_code |
+      | weight-loss | 200         |
+
+  Scenario Outline: Create new niche - POST /niches
+    When I request api POST /niches with data json file like <data_json>
+    Then I should see status code created success is <status_code>
+    And I should see new niche created success like <data_json>
+    Examples:
+      | data_json      | status_code |
+      | new-niche.json | 200         |
+
+  Scenario Outline: Update a niche - PUT /niches/niche_slug
+    When I request api PUT /niches with data json file like <data_json>
+    Then I should see status code updated success is <status_code>
+    And I should see niche updated success like <data_json>
+    Examples:
+      | data_json         | status_code |
+      | update-niche.json | 200         |
 
 
 
