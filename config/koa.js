@@ -9,13 +9,21 @@ var app = koa();
 // trust proxy
 app.proxy = true;
 
-
 var cors = require('koa-cors');
 app.use(cors());
 
 // body parser
 var bodyParser = require('koa-bodyparser');
 app.use(bodyParser());
+
+// logger
+var logger = require('koa-logger');
+app.use(logger());
+
+// setup Mongoose
+var config = require('./config');
+var mongoose = require('../config/mongoose')();
+var Niche = mongoose.model('Niche');
 
 // public routes
 var Router = require('koa-router');
@@ -24,11 +32,6 @@ var publicRoute = new Router();
 publicRoute.get('/', function *(next) {
     this.body = 'Hello World!';
 });
-
-// setup Mongoose
-var config = require('./config');
-var mongoose = require('../config/mongoose')();
-var Niche = mongoose.model('Niche');
 
 publicRoute.post('/niches', function *(next) {
     var entity = new Niche(this.request.body);
@@ -43,7 +46,6 @@ publicRoute.post('/niches', function *(next) {
 });
 
 publicRoute.post('/niches/bulk', function *(next) {
-    var self = this;
     console.log(this.request.body);
     try {
         // TODO Refactor to use collection with generator
@@ -70,18 +72,15 @@ publicRoute.delete('/niches/clear', function *(next) {
 
 publicRoute.get('/niches', function *(next) {
     try {
-        console.log(this.request.url);
-        //console.log(this.params);
-        //console.log(this.request.query);
-        var page = parseInt(this.request.query.page);
-        var itemsPerPage = parseInt(this.request.query.itemsPerPage);
-        var sortColumn = this.request.query.sortColumn;
-        var sortDimension = this.request.query.sortDimension == 'desc' ? -1 : 1;
+        var page = parseInt(this.request.query.page) || 1;
+        var itemsPerPage = parseInt(this.request.query.itemsPerPage) || 10;
+        var sortColumn = this.request.query.sortColumn || 'name';
+        var sortDimension = this.request.query.sortDimension == 'desc' ? -1 : 1 || 'asc';
         var skip = (page - 1) * itemsPerPage;
+        var searchText = this.request.query.searchText || '';
+        var entities;
         var sort = {};
         sort[sortColumn] = sortDimension;
-        var searchText = this.request.query.searchText;
-        var entities;
         if (searchText != '') {
             var entities = yield Niche
                 .find({$text: {$search: searchText}})
@@ -95,5 +94,7 @@ publicRoute.get('/niches', function *(next) {
         this.throw(500, e);
     }
 });
+
 app.use(publicRoute.middleware());
+
 module.exports = app;
