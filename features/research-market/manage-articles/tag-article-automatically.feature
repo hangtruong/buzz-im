@@ -6,7 +6,7 @@ Feature: Tag Article automatically
   Scenario: Tag Article successfully
     Given I have an article
   """
-
+cellulite treatment cellulite removal
   """
     And the following keywords
       | Keyword             | Priority |

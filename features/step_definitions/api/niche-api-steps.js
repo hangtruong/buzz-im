@@ -74,7 +74,7 @@ module.exports = function () {
         var url = uriEndpoint + '/niches/' + nicheSlug;
         request({
                 method: 'GET',
-                url: url,
+                url: url
             }, function (err, response, body) {
                 if (err) {
                     console.log(err);
@@ -98,7 +98,7 @@ module.exports = function () {
         var url = uriEndpoint + '/niches/' + nicheSlug;
         request({
                 method: 'DELETE',
-                url: url,
+                url: url
             }, function (err, response, body) {
                 if (err) {
                     console.log(err);
@@ -126,7 +126,7 @@ module.exports = function () {
         var url = uriEndpoint + '/niches/' + nicheSlug;
         request({
                 method: 'GET',
-                url: url,
+                url: url
             }, function (err, response, body) {
                 if (err) {
                     console.log(err);

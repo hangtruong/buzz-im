@@ -4,7 +4,7 @@ Feature: Generate Post from Article
   As a Marketer, I want to generate a Post from an Article
 
   Scenario:
-    Given I have a niche "" with article "xxx"
+    Given I have a niche "aaa" with article "xxx"
     # xxx has Spintax
     And I was in "articles/xxx" view page
     When I generate this article with quality 1

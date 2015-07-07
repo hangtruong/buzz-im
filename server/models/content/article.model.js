@@ -11,9 +11,9 @@ var baseModelPlugin = require('./../base-model-plugin');
 var ArticleSpintax = require('./article-spintax.model');
 
 var ArticleSchema = new Schema({
-    // People edit
+    code: String,
     title: String,
-    summary: String, // Plain TextT
+    summary: String, // Plain Text
     body: String, // Markdown
     niche: {
         name: String,

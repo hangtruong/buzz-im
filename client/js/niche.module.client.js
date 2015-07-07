@@ -18,6 +18,7 @@ angular.module('nicheModule', [])
                 $scope.page = 1;
                 $scope.isEmpty = false;
                 $scope.scrollDown = 'Scroll down to see more items';
+
                 var queryParams = {
                     page: $scope.page,
                     itemsPerPage: $scope.itemsPerPage,
@@ -26,16 +27,13 @@ angular.module('nicheModule', [])
                     searchText: $scope.searchText
                 };
 
-                nicheService.query(queryParams)
-                    .$promise.then(function (data) {
-                        if (data.length == 0) {
-                            $scope.isEmpty = true;
-                            return;
-                        }
-                        if ($scope.niches == null) $scope.niches = [];
-                        for (var i = 0; i < data.length; i++)
-                            $scope.niches.push(data[i]);
-                    });
+                nicheService.query(queryParams, function (data) {
+                    $scope.niches = data;
+                    if (data.length == 0) {
+                        $scope.isEmpty = true;
+                        return;
+                    }
+                });
             };
 
             $scope.loadMore = function () {
@@ -83,8 +81,9 @@ angular.module('nicheModule', [])
                 // Receive response from Modal when closed
                 modalInstance.result
                     .then(function (response) {
+                        console.log(response);
                         if (response.isNew)
-                            $scope.niches.unshift(response.item);
+                            $scope.niches.unshift(response.item.data);
                     })
                     .catch(function (err) {
                         // TODO Notify the error
