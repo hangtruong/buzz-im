@@ -6,17 +6,15 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
-var baseModelPlugin = require('./base-model-plugin');
+var baseModelPlugin = require('./../base-model-plugin');
+
+var Keyword = require('./keyword.model');
 
 var NicheSchema = new Schema({
     name: {type: String, required: true},
     code: {type: String, required: true},
     description: String,
-    keywords: [{
-        text: {type: String, required: true},
-        matchType: {type: String, required: true, enum: ['Broad', 'Phrase', 'Exact']},
-        usSearch: {type: Number, required: true}
-    }],
+    keywords: [Keyword],
     _creatorId: {type: Schema.ObjectId, ref: 'User'}
 });
 

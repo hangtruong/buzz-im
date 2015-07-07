@@ -11,7 +11,7 @@ module.exports.insertNiche = function (json) {
     if (!mongoose.connection.readyState) {
         mongoose.connect('mongodb://localhost/buzzim-development');
     }
-    var Niche = require('../../../server/models/niche.model');
+    var Niche = require('../../../server/models/content/niche.model.js');
     return Niche.remove({}).exec()
         .then(function () {
             return Q.denodeify(Niche.collection.insert(json));

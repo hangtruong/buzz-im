@@ -17,7 +17,6 @@ angular.module('nicheModule', [])
             $scope.load = function () {
                 $scope.page = 1;
                 $scope.isEmpty = false;
-                $scope.niches = [];
                 $scope.scrollDown = 'Scroll down to see more items';
                 var queryParams = {
                     page: $scope.page,
@@ -27,16 +26,16 @@ angular.module('nicheModule', [])
                     searchText: $scope.searchText
                 };
 
-                nicheService.query(queryParams, function (data) {
-                    if (data.length == 0) {
-                        $scope.isEmpty = true;
-                        return;
-                    }
-
-                    $scope.niches = data;
-                    //for (var i = 0; i < data.length; i++)
-                    //    $scope.niches.push(data[i]);
-                });
+                nicheService.query(queryParams)
+                    .$promise.then(function (data) {
+                        if (data.length == 0) {
+                            $scope.isEmpty = true;
+                            return;
+                        }
+                        if ($scope.niches == null) $scope.niches = [];
+                        for (var i = 0; i < data.length; i++)
+                            $scope.niches.push(data[i]);
+                    });
             };
 
             $scope.loadMore = function () {

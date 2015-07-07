@@ -19,6 +19,8 @@
     "chai": "^2.3.0",
     "chai-as-promised": "^5.0.0",
     "cucumber": "^0.5.2",
+    "grunt": "^0.4.5",
+    "grunt-cucumberjs": "^0.7.0",
     "http-server": "^0.8.0",
     "karma": "^0.12.35",
     "karma-chrome-launcher": "^0.1.12",

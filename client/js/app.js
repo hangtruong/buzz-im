@@ -12,7 +12,8 @@ angular.module('buzzApp', [
     'ngResource',
     'loginModule',
     'dashboardModule',
-    'nicheModule'
+    'nicheModule',
+    'articleModule'
 ])
 
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -41,6 +42,16 @@ angular.module('buzzApp', [
                 controller: 'NicheListCtrl',
                 ncyBreadcrumb: {
                     label: 'Niches',
+                    parent: 'home'
+                }
+            })
+            // TODO Change this to niches/niche-01/articles later
+            .state('articles', {
+                url: '/articles',
+                templateUrl: 'partials/article-list.html',
+                controller: 'ArticleListCtrl',
+                ncyBreadcrumb: {
+                    label: 'Articles',
                     parent: 'home'
                 }
             });

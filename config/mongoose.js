@@ -12,7 +12,7 @@ var config = require('./config'),
 module.exports = function () {
     // Load the application models
     if (!mongoose.connection.models['Niche'])
-        require('../server/models/niche.model')();
+        require('../server/models/content/niche.model.js')();
 
     // Use Mongoose to connect to MongoDB
     if (!mongoose.connection.readyState)

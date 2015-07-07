@@ -1,3 +1,4 @@
+@article-api
 Feature: Tag Article automatically
   In order to produce content faster
   As a Marketer, I want to tag article automatically
