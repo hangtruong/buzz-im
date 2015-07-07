@@ -74,23 +74,19 @@ module.exports = function () {
         var url = uriEndpoint + '/niches/' + nicheSlug;
         request({
                 method: 'GET',
-                url: url ,
+                url: url,
             }, function (err, response, body) {
                 if (err) {
                     console.log(err);
                     callback();
                 }
-                else{
+                else {
                     resStatusCode = response.statusCode;
+                    resData = body;
                     callback();
                 }
             }
         );
-    });
-
-    this.Then(/^I should see api to get single niche by slug exist$/, function (callback) {
-        expect(resStatusCode).not.to.equal(parseInt(404));
-        callback();
     });
 
     this.Then(/^I should see single niche response with status_code = (.*)$/, function (statusCode, callback) {
@@ -100,16 +96,15 @@ module.exports = function () {
 
     this.When(/^I request api DELETE \/niches\/niche_slug with niche_slug = (.*)$/, function (nicheSlug, callback) {
         var url = uriEndpoint + '/niches/' + nicheSlug;
-
         request({
                 method: 'DELETE',
-                url: url ,
+                url: url,
             }, function (err, response, body) {
                 if (err) {
                     console.log(err);
                     callback();
                 }
-                else{
+                else {
                     resStatusCode = response.statusCode;
                     callback();
                 }
@@ -128,54 +123,113 @@ module.exports = function () {
     });
 
     this.Then(/^I should not get niche with niche_slug = (.*)$/, function (nicheSlug, callback) {
-        callback.pending();
-        //var url = uriEndpoint + '/niches/' + nicheSlug;
-        //request({
-        //        method: 'GET',
-        //        url: url ,
-        //    }, function (err, response, body) {
-        //        if (err) {
-        //            console.log(err);
-        //            callback();
-        //        }
-        //        else{
-        //            expect(response.statusCode).to.equal(parseInt(204));
-        //            callback();
-        //        }
-        //    }
-        //);
+        var url = uriEndpoint + '/niches/' + nicheSlug;
+        request({
+                method: 'GET',
+                url: url,
+            }, function (err, response, body) {
+                if (err) {
+                    console.log(err);
+                    callback();
+                }
+                else {
+                    expect(response.statusCode).to.equal(parseInt(404));
+                    callback();
+                }
+            }
+        );
     });
 
-    this.When(/^I request api POST \/niches with data json file like (.*)$/, function (dataJson, callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+    this.When(/^I request api POST \/niches with data json file like (.*)$/, function (fileName, callback) {
+        var url = uriEndpoint + '/niches/';
+        helper.readSampleFile(fileName)
+            .then(function (newNiche) {
+                newNiche = JSON.parse(newNiche);
+                request({
+                        method: 'POST',
+                        url: url,
+                        headers: [
+                            {
+                                name: 'content-type',
+                                value: 'application/json'
+                            }
+                        ],
+                        json:newNiche
+                    }, function (err, response, body) {
+                        if (err) {
+                            console.log(err);
+                            callback();
+                        }
+                        else {
+                            resStatusCode = response.statusCode;
+                            resBody = body;
+                            callback();
+                        }
+                    }
+                );
+            })
+            .fail(function (err) {
+                callback(err);
+            })
+            .done();
     });
 
     this.Then(/^I should see status code created success is (.*)$/, function (statusCode, callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+        expect(resStatusCode).to.equal(parseInt(statusCode));
+        callback();
     });
 
-    this.Then(/^I should see new niche created success like (.*)$/, function (dataJson, callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+    this.Then(/^I should see new niche created success like code = (.*)$/, function (code, callback) {
+        expect(resBody.data.code).to.equal(code);
+        callback();
     });
 
-    this.When(/^I request api PUT \/niches with data json file like (.*)$/, function (dataJson, callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+    this.When(/^I request api PUT \/niches\/niche_slug with data json file like (.*)$/, function (fileName, callback) {
+        helper.readSampleFile(fileName)
+            .then(function (niche) {
+                niche = JSON.parse(niche);
+                var nicheSlug = niche.code;
+                var url = uriEndpoint + '/niches/' + nicheSlug;
+                request({
+                        method: 'PUT',
+                        url: url,
+                        headers: [
+                            {
+                                name: 'content-type',
+                                value: 'application/json'
+                            }
+                        ],
+                        json:niche
+                    }, function (err, response, body) {
+                        if (err) {
+                            console.log(err);
+                            callback();
+                        }
+                        else {
+                            resStatusCode = response.statusCode;
+                            resBody = body;
+                            callback();
+                        }
+                    }
+                );
+            })
+            .fail(function (err) {
+                callback(err);
+            })
+            .done();
+    });
+    this.Then(/^I should see PUT \/niches\/niche_slug exist$/, function (callback) {
+        expect(resStatusCode).not.to.equal(parseInt(404));
+        callback();
     });
 
     this.Then(/^I should see status code updated success is (.*)$/, function (statusCode, callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+        expect(resStatusCode).to.equal(parseInt(statusCode));
+        callback();
     });
 
-    this.Given(/^I should see niche updated success like (.*)$/, function (dataJson, callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+    this.Then(/^I should see niche updated success like description = (.*)$/, function (description, callback) {
+        expect(resBody.data.description).to.equal(description);
+        callback();
     });
-
-
-
 }

@@ -37,7 +37,11 @@ publicRoute.post('/niches', function *(next) {
     var entity = new Niche(this.request.body);
     try {
         yield entity.save();
-        this.body = entity;
+        var res = {
+            message: "Success",
+            data:entity
+        }
+        this.body = res;
     } catch (e) {
         this.status = 301;
         this.body = 'Invalid niche';
@@ -45,7 +49,7 @@ publicRoute.post('/niches', function *(next) {
 });
 
 publicRoute.post('/niches/bulk', function *(next) {
-    console.log(this.request.body);
+
     try {
         // TODO Refactor to use collection with generator
         for (var i = 0; i < this.request.body.length; i++) {
@@ -95,23 +99,67 @@ publicRoute.get('/niches', function *(next) {
 });
 
 // GET /niches/:nicheSlug
-publicRoute.get('/niches/:nicheSlug', function *(next){
+publicRoute.get('/niches/:nicheSlug', function *(next) {
     //TODO research error handler middleware in koa
-    try{
+    try {
         var nicheSlug = this.params.nicheSlug;
-        var niche = yield Niche.findOne({code:nicheSlug}).exec();
-        this.body = niche;
-    }catch(e){
+        var niche = yield Niche.findOne({code: nicheSlug}).exec();
+        if (niche == null) {
+            this.status = 404;
+            var res = {
+                message: 'Not found',
+                data: niche
+            };
+            this.body = res;
+        } else {
+            this.status = 200;
+            var res = {
+                message: 'Success',
+                data: niche
+            };
+            this.body = res;
+        }
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+// PUT /niches/:nicheSlug
+publicRoute.put('/niches/:nicheSlug', function *(next) {
+    try {
+        var nicheSlug = this.params.nicheSlug;
+        var niche = yield Niche.findOne({code: nicheSlug}).exec();
+        if (niche == null) {
+            this.status = 404;
+            var res = {
+                message: 'Not found'
+            };
+            this.body = res;
+        }
+        var resJson = this.request.body
+        niche.name = resJson.name;
+        niche.description = resJson.description;
+        niche.keywords = resJson.keywords;
+        niche.code = resJson.code;
+        niche.modifiedTime = new Date();
+        yield niche.save();
+        var res = {
+            message: 'Success',
+            data: niche
+        };
+        this.body = res;
+    } catch (e) {
         this.throw(500, e);
     }
 });
 
 // DELETE /niches/:nicheSlug
-publicRoute.delete('/niches/:nicheSlug', function *(next){
-    try{
+publicRoute.delete('/niches/:nicheSlug', function *(next) {
+    try {
         var nicheSlug = this.params.nicheSlug;
-        this.body = nicheSlug;
-    }catch(e){
+        yield Niche.remove({code: nicheSlug}).exec();
+        this.body = {message: 'Success'};
+    } catch (e) {
         this.throw(500, e);
     }
 });
