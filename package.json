@@ -29,7 +29,8 @@
     "request": "^2.58.0"
   },
   "scripts": {
-    "test": "cucumber.js --format pretty --tags @niche-api --require features/step_definitions/api"
+    "start": "nodemon --harmony index.js",
+    "test": "cucumber.js --format pretty --tags @articles-api --require features/step_definitions/api"
   },
   "description": "Buzz Internet Marketing",
   "directories": {

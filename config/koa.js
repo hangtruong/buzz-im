@@ -2,7 +2,7 @@
  * Created by joehua on 6/28/15.
  */
 
-"use strict"
+'use strict'
 var koa = require('koa');
 var app = koa();
 
@@ -28,18 +28,25 @@ var Niche = mongoose.model('Niche');
 // public routes
 var Router = require('koa-router');
 var publicRoute = new Router();
+app.use(publicRoute.middleware());
 
-publicRoute.get('/', function *(next) {
-    this.body = 'Hello World!';
+app.use(function*() {
+    this.status = 404;
+    this.body = {message: 'Not found'};
 });
 
+publicRoute.get('/', function *() {
+    this.body = {message: 'Buzz Internet Marketing server running...'};
+});
+
+// POST /niches
 publicRoute.post('/niches', function *(next) {
     var entity = new Niche(this.request.body);
     try {
         yield entity.save();
         var res = {
-            message: "Success",
-            data:entity
+            message: 'Success',
+            data: entity
         }
         this.body = res;
     } catch (e) {
@@ -48,6 +55,7 @@ publicRoute.post('/niches', function *(next) {
     }
 });
 
+// POST /niches/bulk
 publicRoute.post('/niches/bulk', function *(next) {
 
     try {
@@ -56,12 +64,13 @@ publicRoute.post('/niches/bulk', function *(next) {
             var entity = new Niche(this.request.body[i]);
             yield entity.save();
         }
-        this.body = "Success";
+        this.body = 'Success';
     } catch (e) {
         this.throw(500, e);
     }
 });
 
+// DELETE /niches/clear
 publicRoute.delete('/niches/clear', function *(next) {
     try {
         // TODO Refactor to use Generator
@@ -73,6 +82,7 @@ publicRoute.delete('/niches/clear', function *(next) {
     }
 });
 
+// GET /niches
 publicRoute.get('/niches', function *(next) {
     try {
         var page = parseInt(this.request.query.page) || 1;
@@ -164,6 +174,9 @@ publicRoute.delete('/niches/:nicheSlug', function *(next) {
     }
 });
 
-app.use(publicRoute.middleware());
+/*
+ *   Articles APIs
+ */
+
 
 module.exports = app;

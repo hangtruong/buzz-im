@@ -3,6 +3,7 @@
 
 // Set the 'development' environment configuration object
 module.exports = {
-	db: 'mongodb://localhost/buzzim-development',
+	db: 'mongodb://127.0.0.1/buzzim-development',
+    ip: '127.0.0.1',
     port: 3000
 };

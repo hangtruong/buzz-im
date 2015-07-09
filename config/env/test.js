@@ -1,8 +1,8 @@
-// Invoke 'strict' JavaScript mode
 'use strict';
 
 // Set the 'test' environment configuration object
 module.exports = {
-	db: 'mongodb://localhost/buzzim-test',
+	db: 'mongodb://127.0.0.1/buzzim-test',
+	ip: '127.0.0.1',
 	port: 4000
 };
