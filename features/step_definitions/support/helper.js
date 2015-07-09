@@ -5,11 +5,11 @@
 var Q = require('q');
 var mongoose = require('mongoose');
 var fs = require('fs');
-
+var config = require('../../../config/config');
 
 module.exports.insertNiche = function (json) {
     if (!mongoose.connection.readyState) {
-        mongoose.connect('mongodb://localhost/buzzim-development');
+        mongoose.connect(config.db);
     }
     var Niche = require('../../../server/models/content/niche.model.js');
     return Niche.remove({}).exec()

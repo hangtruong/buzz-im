@@ -83,6 +83,15 @@ publicRoute.delete('/niches/clear', function *(next) {
 });
 
 // GET /niches
+publicRoute.get('/niches/documents', function *(next) {
+    try {
+        this.body = yield Niche.find({}).exec();
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+// GET /niches
 publicRoute.get('/niches', function *(next) {
     try {
         var page = parseInt(this.request.query.page) || 1;

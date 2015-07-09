@@ -5,16 +5,20 @@
 var _ = require('underscore');
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
-var expect = chai.expect;
 var request = require('request');
-var uriEndpoint = 'http://localhost:3000';
+var config = require('../../../config/config');
 var helper = require('../support/helper');
-
 module.exports = function () {
     this.World = require('../support/world').World;
+    chai.use(chaiAsPromised);
+    var expect = chai.expect;
+    // Hooks for each scenario exec
+    //require('../support/niche-hook-steps')(this);
 
     this.Given(/^I had a list of niches like "([^"]*)"$/, function (fileName, callback) {
+        // Before each scenario, delete data init then insert data init via mongoose
+        // TODO maybe refactor using Before, After hook via api POST /niches/bulk and DELETE /niches/bulk
+        console.log('Hook before start scenario');
         helper.readSampleFile(fileName)
             .then(function (result) {
                 var json = JSON.parse(result);
@@ -42,21 +46,22 @@ module.exports = function () {
             }
             request({
                     method: 'GET',
-                    url: uriEndpoint + '/niches',
+                    url: config.urlEndpoint + '/niches',
                     qs: paramJson
                 }, function (err, response, body) {
                     if (err) {
                         console.log(err);
                     }
-                    else
+                    else {
                         returnData = JSON.parse(body);
+                    }
                     callback();
                 }
             );
         });
 
     this.Then(/^I should see the niches as file (.*)$/, function (fileResult, callback) {
-        // TODO test case default request
+        // TODO test case default request, config fulltext search in MongoDB via script
         helper.readSampleFile(fileResult)
             .then(function (result) {
                 var expectData = JSON.parse(result);
@@ -71,7 +76,7 @@ module.exports = function () {
     });
 
     this.When(/^I request api GET \/niches\/niche_slug with niche_slug = (.*)$/, function (nicheSlug, callback) {
-        var url = uriEndpoint + '/niches/' + nicheSlug;
+        var url = config.urlEndpoint + '/niches/' + nicheSlug;
         request({
                 method: 'GET',
                 url: url
@@ -95,7 +100,7 @@ module.exports = function () {
     });
 
     this.When(/^I request api DELETE \/niches\/niche_slug with niche_slug = (.*)$/, function (nicheSlug, callback) {
-        var url = uriEndpoint + '/niches/' + nicheSlug;
+        var url = config.urlEndpoint + '/niches/' + nicheSlug;
         request({
                 method: 'DELETE',
                 url: url
@@ -123,7 +128,7 @@ module.exports = function () {
     });
 
     this.Then(/^I should not get niche with niche_slug = (.*)$/, function (nicheSlug, callback) {
-        var url = uriEndpoint + '/niches/' + nicheSlug;
+        var url = config.urlEndpoint + '/niches/' + nicheSlug;
         request({
                 method: 'GET',
                 url: url
@@ -141,7 +146,7 @@ module.exports = function () {
     });
 
     this.When(/^I request api POST \/niches with data json file like (.*)$/, function (fileName, callback) {
-        var url = uriEndpoint + '/niches/';
+        var url = config.urlEndpoint + '/niches/';
         helper.readSampleFile(fileName)
             .then(function (newNiche) {
                 newNiche = JSON.parse(newNiche);
@@ -154,7 +159,7 @@ module.exports = function () {
                                 value: 'application/json'
                             }
                         ],
-                        json:newNiche
+                        json: newNiche
                     }, function (err, response, body) {
                         if (err) {
                             console.log(err);
@@ -189,7 +194,7 @@ module.exports = function () {
             .then(function (niche) {
                 niche = JSON.parse(niche);
                 var nicheSlug = niche.code;
-                var url = uriEndpoint + '/niches/' + nicheSlug;
+                var url = config.urlEndpoint + '/niches/' + nicheSlug;
                 request({
                         method: 'PUT',
                         url: url,
@@ -199,7 +204,7 @@ module.exports = function () {
                                 value: 'application/json'
                             }
                         ],
-                        json:niche
+                        json: niche
                     }, function (err, response, body) {
                         if (err) {
                             console.log(err);
@@ -218,6 +223,7 @@ module.exports = function () {
             })
             .done();
     });
+
     this.Then(/^I should see PUT \/niches\/niche_slug exist$/, function (callback) {
         expect(resStatusCode).not.to.equal(parseInt(404));
         callback();

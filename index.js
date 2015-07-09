@@ -11,7 +11,3 @@ var app = require('./config/koa');
 app.listen(config.port);
 console.log('process.env.NODE_ENV: ' + env);
 console.log('Server running at ' + "http://" + config.ip + ":" + config.port);
-
-
-
-
