@@ -11,10 +11,10 @@ Feature: Manage articles API
     Given I had list articles like <articles_file> and niche_slug like <niche_slug> and request authenticated success
     When I make a request GET /niches/niche_slug/articles to server
     Then I should see in response header Content-Type is <content_type>, HTTP status code is <http_status_code>
-    And I should see response list articles like file <expect_file>
+    And I should see response list articles like <expect_file>
     Examples:
-      | articles_file      | niche_slug | content_type                    | http_status_code | expect_file   |
-      | articles-init.json | blabla     | application/json; charset=utf-8 | 200              | articles.json |
+      | articles_file      | niche_slug | content_type                    | http_status_code | expect_file        |
+      | articles-init.json | blabla     | application/json; charset=utf-8 | 200              | articles-init.json |
 
 #  #Case GET /niches/niche_slug/article?page=:page&per_page=:per_page&order_by=:order_by&sort_column=:sort_column
 #  Scenario Outline: Case #02 -Find articles belong to niche by niche_slug with padding, sort, order

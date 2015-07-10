@@ -220,7 +220,6 @@ publicRoute.delete('/articles/bulk', function *() {
 
 // POST /articles/bulk // JUST FOR TEST
 publicRoute.post('/articles/bulk', function *() {
-    console.log(this.request.body);
     try {
         var articles = this.request.body;
         for (var article of articles) {

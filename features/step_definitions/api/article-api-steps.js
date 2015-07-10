@@ -14,27 +14,121 @@ module.exports = function () {
 
     this.Before("@articles-api", function (callback) {
         // TODO request POST /articles/bulk
-        console.log("Start before hook @articles-api");
-        var path = 'articles-api/articles-init.json';
+        callback();
+        //helper.readSampleFile(path)
+        //    .then(function (result) {
+        //        var articles = JSON.parse(result);
+        //        //return helper.insertArticles(articles);
+        //        var url = config.urlEndpoint + '/articles/bulk';
+        //        request({
+        //                method: 'POST',
+        //                url: url,
+        //                headers: [
+        //                    {
+        //                        name: 'content-type',
+        //                        value: 'application/json'
+        //                    }
+        //                ],
+        //                json: articles
+        //            }, function (err, response, body) {
+        //                if (err)callback(err);
+        //            }
+        //        );
+        //    })
+        //    .fail(function (err) {
+        //        callback(err);
+        //    })
+        //    .done(function () {
+        //        console.log("Start before hook @articles-api");
+        //        callback();
+        //    });
+    });
+
+    this.After("@articles-api", function (callback) {
+        console.log("Start after hook @articles-api");
+        requestClient = null;
+        expect = null;
+        var url = config.urlEndpoint + '/articles/bulk';
+        request({
+                method: 'DELETE',
+                url: url
+            }, function (err, response, body) {
+                if (err) {
+                    callback(err);
+                }
+                callback();
+            }
+        );
+    });
+
+    /*
+     * Articles
+     */
+    this.Given(/^I had list articles like (.*) and niche_slug like (.*) and request authenticated success$/,
+        function (articlesFile, nicheSlug, callback) {
+            console.log('Given');
+            var path = 'articles-api/' + articlesFile;
+            helper.readSampleFile(path)
+                .then(function (result) {
+                    var articles = JSON.parse(result);
+                    var url = config.urlEndpoint + '/articles/bulk';
+                    request({
+                            method: 'POST',
+                            url: url,
+                            headers: [
+                                {
+                                    name: 'content-type',
+                                    value: 'application/json'
+                                }
+                            ],
+                            json: articles
+                        }, function (err, response, body) {
+                            if (err)callback(err);
+                            callback();
+                        }
+                    );
+                })
+                .fail(function (err) {
+                    callback(err);
+                })
+        });
+
+    this.When(/^I make a request GET \/niches\/niche_slug\/articles to server$/, function (callback) {
+        console.log('When');
+        var url = config.urlEndpoint + '/articles';
+        request({
+                method: 'GET',
+                url: url
+            }, function (err, response, body) {
+                if (err) {
+                    callback(err);
+                }
+                requestClient.response = response;
+                requestClient.body = JSON.parse(body);
+                callback();
+            }
+        );
+    });
+
+    this.Then(/^I should see in response header Content\-Type is (.*), HTTP status code is (.*)$/,
+        function (contentType, httpStatusCode, callback) {
+            console.log('Then 1');
+            expect(requestClient.response.headers['content-type']).to.equal(contentType);
+            expect(requestClient.response.statusCode).to.equal(parseInt(httpStatusCode));
+            callback();
+        });
+
+    this.Then(/^I should see response list articles like (.*)$/, function (expectFile, callback) {
+        console.log('Then 2');
+        var path = 'articles-api/' + expectFile;
         helper.readSampleFile(path)
             .then(function (result) {
                 var articles = JSON.parse(result);
-                //return helper.insertArticles(articles);
-                var url = config.urlEndpoint + '/articles/bulk';
-                request({
-                        method: 'POST',
-                        url: url,
-                        headers: [
-                            {
-                                name: 'content-type',
-                                value: 'application/json'
-                            }
-                        ],
-                        json: articles
-                    }, function (err, response, body) {
-                        if (err)callback(err);
-                    }
-                );
+                expect(requestClient.body.length).to.equal(articles.length);
+                // Add order by
+                //expect(requestClient.body[0].code).to.equal(articles[0].code);
+                //expect(requestClient.body[1].code).to.equal(articles[1].code);
+                //expect(requestClient.body[2].code).to.equal(articles[2].code);
             })
             .fail(function (err) {
                 callback(err);
@@ -44,73 +138,6 @@ module.exports = function () {
             });
     });
 
-    this.After("@articles-api", function (callback) {
-        // TODO request DELETE /articles/bulk
-        console.log("Start after hook @articles-api");
-        requestClient = null;
-        expect = null;
-        callback();
-        //var url = config.urlEndpoint + '/articles/bulk';
-        //request({
-        //        method: 'DELETE',
-        //        url: url
-        //    }, function (err, response, body) {
-        //        if (err) {
-        //            callback(err);
-        //        }
-        //        else {
-        //            callback();
-        //        }
-        //    }
-        //);
-    });
-
-    /*
-     * Articles
-     */
-    this.Given(/^I had list articles like (.*) and niche_slug like (.*) and request authenticated success$/,
-        function (articlesFile, nicheSlug, callback) {
-            // Write code here that turns the phrase above into concrete actions
-            //var path = 'articles-api/' + articlesFile;
-            //helper.readSampleFile(path)
-            //    .then(function (result) {
-            //        var articles = JSON.parse(result);
-            //    })
-            //    .catch(function (err) {
-            //        callback(err);
-            //    })
-            //    .done(function () {
-            //        callback();
-            //    });
-            callback();
-        });
-
-    this.When(/^I make a request GET \/niches\/niche_slug\/articles to server$/, function (callback) {
-        var url = config.urlEndpoint + '/niches/abc/articles';
-        request({
-                method: 'GET',
-                url: url
-            }, function (err, response, body) {
-                if (err) {
-                    callback(err);
-                }
-                requestClient.response = response;
-                requestClient.body = body;
-                callback();
-            }
-        );
-    });
-
-    this.Then(/^I should see in response header Content\-Type is (.*), HTTP status code is (.*)$/,
-        function (contentType, httpStatusCode, callback) {
-            expect(requestClient.response.headers['content-type']).to.equal(contentType);
-            expect(requestClient.response.statusCode).to.equal(parseInt(httpStatusCode));
-            callback();
-        });
-
-    this.Then(/^I should see response list articles like file (.*)$/, function (expectFile, callback) {
-        callback.pending();
-    });
 
     //this.When(/^I make request GET \/niches\/niche_slug\/article with params like page = (.*), item per page = (.*), order by = (.*), sort column = (.*)$/,
     //    function (page, perPage, orderBy, sortColumn, callback) {
