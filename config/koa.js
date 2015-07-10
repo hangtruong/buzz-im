@@ -24,6 +24,7 @@ app.use(logger());
 var config = require('./config');
 var mongoose = require('../config/mongoose')();
 var Niche = mongoose.model('Niche');
+var Article = mongoose.model('Article');
 
 // public routes
 var Router = require('koa-router');
@@ -57,7 +58,6 @@ publicRoute.post('/niches', function *(next) {
 
 // POST /niches/bulk
 publicRoute.post('/niches/bulk', function *(next) {
-
     try {
         // TODO Refactor to use collection with generator
         for (var i = 0; i < this.request.body.length; i++) {
@@ -186,6 +186,39 @@ publicRoute.delete('/niches/:nicheSlug', function *(next) {
 /*
  *   Articles APIs
  */
+// GET /articles // JUST FOR TEST
+publicRoute.get('/articles', function*() {
+    try {
+        this.type = 'application/json; charset=utf-8';
+        var articles = yield Article.find({}).exec();
+        this.body = articles
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+// DELETE /articles/bulk // JUST FOR TEST
+publicRoute.delete('/articles/bulk', function *() {
+    try {
+        yield Article.remove({}).exec();
+        this.body = 'Remove Successfully';
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+// GET /niches/niche_slug/articles
+publicRoute.get('/niches/:niche_slug/articles', function*() {
+    //console.log(this.request);
+    try {
+        var nicheSlug = this.params.niche_slug;
+        this.type = 'application/json; charset=utf-8';
+        this.body = {message: 'GET /niches/niche_slug/articles'};
+        //console.log(this.response);
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
 
 
 module.exports = app;

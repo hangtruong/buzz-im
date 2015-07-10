@@ -21,6 +21,21 @@ module.exports.insertNiche = function (json) {
         });
 }
 
+module.exports.insertArticles = function (articles) {
+    // TODO should be via api
+    if (!mongoose.connection.readyState) {
+        mongoose.connect(config.db);
+    }
+    var Article = require('../../../server/models/content/article.model.js');
+    return Article.remove({}).exec()
+        .then(function () {
+            return Q.denodeify(Article.collection.insert(articles)); // How this work?
+        })
+        .then(function () {
+            mongoose.connection.close();
+        });
+}
+
 module.exports.readSampleFile = function (filePath) {
     var readFile = Q.denodeify(fs.readFile);
     return readFile(__dirname + '/../../sample-data/' + filePath, 'utf8');

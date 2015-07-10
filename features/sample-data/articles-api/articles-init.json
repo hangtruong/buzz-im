@@ -1,0 +1,96 @@
+[
+  {
+    "code": "abc",
+    "title": "String",
+    "summary": "String",
+    "body": "String",
+    "niche": {
+      "name": "String",
+      "_id": "_id"
+    },
+    "quality": 5,
+    "tags": [
+      {
+        "text": "String1",
+        "_id": "_id"
+      },
+      {
+        "text": "String1",
+        "_id": "_id"
+      }
+    ],
+    "approach": {
+      "type": "type1",
+      "enum": [
+        "HowTo",
+        "Sale",
+        "Story"
+      ]
+    },
+    "canBeUsedForContent": [
+      {
+        "type": "String",
+        "enum": [
+          "Presentation",
+          "Video",
+          "Infographic",
+          "AutoResponse"
+        ]
+      }
+    ],
+    "uniqueness": {},
+    "spintaxes": [
+      "ArticleSpintax"
+    ],
+    "_creatorId": {
+      "_id":"_id"
+    }
+  },
+  {
+    "code": "abc",
+    "title": "String",
+    "summary": "String",
+    "body": "String",
+    "niche": {
+      "name": "String",
+      "_id": "_id"
+    },
+    "quality": 5,
+    "tags": [
+      {
+        "text": "String1",
+        "_id": "_id"
+      },
+      {
+        "text": "String1",
+        "_id": "_id"
+      }
+    ],
+    "approach": {
+      "type": "type1",
+      "enum": [
+        "HowTo",
+        "Sale",
+        "Story"
+      ]
+    },
+    "canBeUsedForContent": [
+      {
+        "type": "String",
+        "enum": [
+          "Presentation",
+          "Video",
+          "Infographic",
+          "AutoResponse"
+        ]
+      }
+    ],
+    "uniqueness": {},
+    "spintaxes": [
+      "ArticleSpintax"
+    ],
+    "_creatorId": {
+      "_id":"_id"
+    }
+  }
+]
