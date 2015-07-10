@@ -19,9 +19,24 @@ module.exports = function () {
         helper.readSampleFile(path)
             .then(function (result) {
                 var articles = JSON.parse(result);
-                return helper.insertArticles(articles);
+                //return helper.insertArticles(articles);
+                var url = config.urlEndpoint + '/articles/bulk';
+                request({
+                        method: 'POST',
+                        url: url,
+                        headers: [
+                            {
+                                name: 'content-type',
+                                value: 'application/json'
+                            }
+                        ],
+                        json: articles
+                    }, function (err, response, body) {
+                        if (err)callback(err);
+                    }
+                );
             })
-            .catch(function (err) {
+            .fail(function (err) {
                 callback(err);
             })
             .done(function () {
@@ -34,20 +49,20 @@ module.exports = function () {
         console.log("Start after hook @articles-api");
         requestClient = null;
         expect = null;
-        //callback();
-        var url = config.urlEndpoint + '/articles/bulk';
-        request({
-                method: 'DELETE',
-                url: url
-            }, function (err, response, body) {
-                if (err) {
-                    callback(err);
-                }
-                else {
-                    callback();
-                }
-            }
-        );
+        callback();
+        //var url = config.urlEndpoint + '/articles/bulk';
+        //request({
+        //        method: 'DELETE',
+        //        url: url
+        //    }, function (err, response, body) {
+        //        if (err) {
+        //            callback(err);
+        //        }
+        //        else {
+        //            callback();
+        //        }
+        //    }
+        //);
     });
 
     /*

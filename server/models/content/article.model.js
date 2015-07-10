@@ -16,8 +16,9 @@ var ArticleSchema = new Schema({
     summary: String, // Plain Text
     body: String, // Markdown
     niche: {
-        name: String,
-        _id: {type: Schema.ObjectId, ref: 'Niche'}
+        _id: {type: Schema.ObjectId, ref: 'Niche'},
+        code: String,
+        name: String
     },
     quality: Number,
     tags: [{

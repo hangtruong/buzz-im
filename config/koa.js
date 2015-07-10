@@ -197,6 +197,17 @@ publicRoute.get('/articles', function*() {
     }
 });
 
+// PUT /articles/title // JUST FOR TEST
+publicRoute.put('/articles/title', function*() {
+    try {
+        var text = this.request.body.text;
+        // Format text like "A Brief" to "a-brief"
+        this.body = text.toLocaleLowerCase().trim().replace(/\s+/g, '-');
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
 // DELETE /articles/bulk // JUST FOR TEST
 publicRoute.delete('/articles/bulk', function *() {
     try {
@@ -207,6 +218,23 @@ publicRoute.delete('/articles/bulk', function *() {
     }
 });
 
+// POST /articles/bulk // JUST FOR TEST
+publicRoute.post('/articles/bulk', function *() {
+    console.log(this.request.body);
+    try {
+        var articles = this.request.body;
+        for (var article of articles) {
+            var entity = new Article(article);
+            entity = yield entity.save();
+        }
+        this.body = 'done';
+    } catch (e) {
+        console.log(e);
+        this.throw(500, e);
+    }
+});
+
+// Implement APIs
 // GET /niches/niche_slug/articles
 publicRoute.get('/niches/:niche_slug/articles', function*() {
     //console.log(this.request);

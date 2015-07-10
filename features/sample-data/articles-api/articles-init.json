@@ -1,96 +1,71 @@
 [
   {
-    "code": "abc",
-    "title": "String",
-    "summary": "String",
-    "body": "String",
+    "code": "a-brief-examination-of-what-to-expect-from-natural-weight-loss",
+    "title": "A Brief Examination Of What To Expect From Natural Weight Loss",
+    "summary": "With there being countless medical and pharmaceutical answers to all of our weight problems, the fact remains that most, if not all of them only provide a temporary solution, not to mention that they are going to turn you inside out in the process, leaving you with much bigger problems to worry about than your weight.",
+    "body": "With there being countless medical and pharmaceutical answers to all of our weight problems, the fact remains that most, if not all of them only provide a temporary solution, not to mention that they are going to turn you inside out in the process, leaving you with much bigger problems to worry about than your weight.",
     "niche": {
-      "name": "String",
-      "_id": "_id"
+      "_id": "559f7c5136d8514014ff99b0",
+      "code": "weight-loss",
+      "name": "Weight Loss"
     },
-    "quality": 5,
+    "quality": 1,
     "tags": [
       {
-        "text": "String1",
-        "_id": "_id"
-      },
-      {
-        "text": "String1",
-        "_id": "_id"
+        "text": "guide",
+        "_id": "559f7915869efa40160485f8"
       }
     ],
-    "approach": {
-      "type": "type1",
-      "enum": [
-        "HowTo",
-        "Sale",
-        "Story"
-      ]
-    },
-    "canBeUsedForContent": [
-      {
-        "type": "String",
-        "enum": [
-          "Presentation",
-          "Video",
-          "Infographic",
-          "AutoResponse"
-        ]
-      }
-    ],
+    "approach": "HowTo",
+    "canBeUsedForContent": "Presentation",
     "uniqueness": {},
-    "spintaxes": [
-      "ArticleSpintax"
-    ],
-    "_creatorId": {
-      "_id":"_id"
-    }
+    "spintaxes": [],
+    "_creatorId": "559f7915869efa40160485f7"
   },
   {
-    "code": "abc",
-    "title": "String",
-    "summary": "String",
-    "body": "String",
+    "code": "a-brief-guide-to-choosing-the-proper-weight-loss-supplements",
+    "title": "A Brief Guide To Choosing The Proper Weight Loss Supplements",
+    "summary": "The road to losing weight is paved with innumerable obstacles, ranging from not having enough time to a waning motivation… in other words, there is no shortage of things which can set you off course.",
+    "body": "The road to losing weight is paved with innumerable obstacles, ranging from not having enough time to a waning motivation… in other words, there is no shortage of things which can set you off course. Thankfully, you aren’t left with nothing but your willpower in order to make it through this, as countless researchers and fitness experts have been working on ways to make the process easier.",
     "niche": {
-      "name": "String",
-      "_id": "_id"
+      "_id": "559f7c5136d8514014ff99b0",
+      "code": "weight-loss",
+      "name": "Weight Loss"
     },
     "quality": 5,
     "tags": [
       {
-        "text": "String1",
-        "_id": "_id"
-      },
-      {
-        "text": "String1",
-        "_id": "_id"
+        "text": "guide",
+        "_id": "559f7915869efa40160485f8"
       }
     ],
-    "approach": {
-      "type": "type1",
-      "enum": [
-        "HowTo",
-        "Sale",
-        "Story"
-      ]
-    },
-    "canBeUsedForContent": [
-      {
-        "type": "String",
-        "enum": [
-          "Presentation",
-          "Video",
-          "Infographic",
-          "AutoResponse"
-        ]
-      }
-    ],
+    "approach": "HowTo",
+    "canBeUsedForContent": "Presentation",
     "uniqueness": {},
-    "spintaxes": [
-      "ArticleSpintax"
+    "spintaxes": [],
+    "_creatorId": "559f7915869efa40160485f7"
+  },
+  {
+    "code": "a-brief-overview-of-the-five-best-foods-for-weight-loss",
+    "title": "A Brief Overview Of The Five Best Foods For Weight Loss",
+    "summary": "As you surely know at this point, eating the right foods is a key component of losing weight and becoming healthy.",
+    "body": "As you surely know at this point, eating the right foods is a key component of losing weight and becoming healthy. However, unless you are a professional nutritionist, chances are that you don’t really have the knowledge in regards to which foods contain which nutrients and how many calories.",
+    "niche": {
+      "_id": "559f7c5136d8514014ff99b0",
+      "code": "weight-loss",
+      "name": "Weight Loss"
+    },
+    "quality": 5,
+    "tags": [
+      {
+        "text": "guide",
+        "_id": "559f7915869efa40160485f8"
+      }
     ],
-    "_creatorId": {
-      "_id":"_id"
-    }
+    "approach": "HowTo",
+    "canBeUsedForContent": "Presentation",
+    "uniqueness": {},
+    "spintaxes": [],
+    "_creatorId": "559f7915869efa40160485f7"
   }
 ]
