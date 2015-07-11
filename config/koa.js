@@ -2,7 +2,7 @@
  * Created by joehua on 6/28/15.
  */
 
-"use strict"
+'use strict'
 var koa = require('koa');
 var app = koa();
 
@@ -24,22 +24,30 @@ app.use(logger());
 var config = require('./config');
 var mongoose = require('../config/mongoose')();
 var Niche = mongoose.model('Niche');
+var Article = mongoose.model('Article');
 
 // public routes
 var Router = require('koa-router');
 var publicRoute = new Router();
+app.use(publicRoute.middleware());
 
-publicRoute.get('/', function *(next) {
-    this.body = 'Hello World!';
+app.use(function*() {
+    this.status = 404;
+    this.body = {message: 'Not found'};
 });
 
+publicRoute.get('/', function *() {
+    this.body = {message: 'Buzz Internet Marketing server running...'};
+});
+
+// POST /niches
 publicRoute.post('/niches', function *(next) {
     var entity = new Niche(this.request.body);
     try {
         yield entity.save();
         var res = {
-            message: "Success",
-            data:entity
+            message: 'Success',
+            data: entity
         }
         this.body = res;
     } catch (e) {
@@ -48,20 +56,21 @@ publicRoute.post('/niches', function *(next) {
     }
 });
 
+// POST /niches/bulk
 publicRoute.post('/niches/bulk', function *(next) {
-
     try {
         // TODO Refactor to use collection with generator
         for (var i = 0; i < this.request.body.length; i++) {
             var entity = new Niche(this.request.body[i]);
             yield entity.save();
         }
-        this.body = "Success";
+        this.body = 'Success';
     } catch (e) {
         this.throw(500, e);
     }
 });
 
+// DELETE /niches/clear
 publicRoute.delete('/niches/clear', function *(next) {
     try {
         // TODO Refactor to use Generator
@@ -73,6 +82,16 @@ publicRoute.delete('/niches/clear', function *(next) {
     }
 });
 
+// GET /niches
+publicRoute.get('/niches/documents', function *(next) {
+    try {
+        this.body = yield Niche.find({}).exec();
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+// GET /niches
 publicRoute.get('/niches', function *(next) {
     try {
         var page = parseInt(this.request.query.page) || 1;
@@ -164,6 +183,69 @@ publicRoute.delete('/niches/:nicheSlug', function *(next) {
     }
 });
 
-app.use(publicRoute.middleware());
+/*
+ *   Articles APIs
+ */
+// GET /articles // JUST FOR TEST
+publicRoute.get('/articles', function*() {
+    try {
+        this.type = 'application/json; charset=utf-8';
+        var articles = yield Article.find({}).exec();
+        this.body = articles
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+// PUT /articles/title // JUST FOR TEST
+publicRoute.put('/articles/title', function*() {
+    try {
+        var text = this.request.body.text;
+        // Format text like "A Brief" to "a-brief"
+        this.body = text.toLocaleLowerCase().trim().replace(/\s+/g, '-');
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+// DELETE /articles/bulk // JUST FOR TEST
+publicRoute.delete('/articles/bulk', function *() {
+    try {
+        yield Article.remove({}).exec();
+        this.body = 'Remove Successfully';
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
+// POST /articles/bulk // JUST FOR TEST
+publicRoute.post('/articles/bulk', function *() {
+    try {
+        var articles = this.request.body;
+        for (var article of articles) {
+            var entity = new Article(article);
+            entity = yield entity.save();
+        }
+        this.body = 'done';
+    } catch (e) {
+        console.log(e);
+        this.throw(500, e);
+    }
+});
+
+// Implement APIs
+// GET /niches/niche_slug/articles
+publicRoute.get('/niches/:niche_slug/articles', function*() {
+    //console.log(this.request);
+    try {
+        var nicheSlug = this.params.niche_slug;
+        this.type = 'application/json; charset=utf-8';
+        this.body = {message: 'GET /niches/niche_slug/articles'};
+        //console.log(this.response);
+    } catch (e) {
+        this.throw(500, e);
+    }
+});
+
 
 module.exports = app;

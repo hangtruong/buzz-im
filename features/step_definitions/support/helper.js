@@ -5,16 +5,31 @@
 var Q = require('q');
 var mongoose = require('mongoose');
 var fs = require('fs');
-
+var config = require('../../../config/config');
 
 module.exports.insertNiche = function (json) {
     if (!mongoose.connection.readyState) {
-        mongoose.connect('mongodb://localhost/buzzim-development');
+        mongoose.connect(config.db);
     }
     var Niche = require('../../../server/models/content/niche.model.js');
     return Niche.remove({}).exec()
         .then(function () {
             return Q.denodeify(Niche.collection.insert(json));
+        })
+        .then(function () {
+            mongoose.connection.close();
+        });
+}
+
+module.exports.insertArticles = function (articles) {
+    // TODO should be via api
+    if (!mongoose.connection.readyState) {
+        mongoose.connect(config.db);
+    }
+    var Article = require('../../../server/models/content/article.model.js');
+    return Article.remove({}).exec()
+        .then(function () {
+            return Q.denodeify(Article.collection.insert(articles)); // How this work?
         })
         .then(function () {
             mongoose.connection.close();
